@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainForm">
+  <grid id="27dc6" binding="MainPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="742" height="438"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="9765d" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="fa0fe" class="javax.swing.JList" binding="menuList">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <layoutOrientation value="0"/>
+              <model>
+                <item value="New Task"/>
+                <item value="Task Queue"/>
+                <item value="History"/>
+              </model>
+              <selectionMode value="0"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="8106d" binding="cardPanel" layout-manager="CardLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="c4dee" binding="newTaskPanel" layout-manager="CardLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="Card0"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="5c90a" binding="taskPropsCard" layout-manager="GridBagLayout">
+                <constraints>
+                  <card name="taskPropsCard"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="625d7" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="0.0"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="3bc1f" class="javax.swing.JLabel">
+                        <constraints/>
+                        <properties>
+                          <text value="Task Name:"/>
+                        </properties>
+                      </component>
+                      <component id="ab3d7" class="javax.swing.JTextField" binding="taskNameField">
+                        <constraints/>
+                        <properties>
+                          <columns value="25"/>
+                        </properties>
+                      </component>
+                      <component id="a7f46" class="javax.swing.JButton" binding="nextButton" default-binding="true">
+                        <constraints/>
+                        <properties>
+                          <text value="   Next   "/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <vspacer id="c1a84">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="1.0"/>
+                    </constraints>
+                  </vspacer>
+                </children>
+              </grid>
+              <grid id="df82" binding="taskEditCard" layout-manager="GridBagLayout">
+                <constraints>
+                  <card name="taskEditCard"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="bf599" layout-manager="GridBagLayout">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="0.0"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="36e14" class="javax.swing.JButton" binding="sendToServerButton">
+                        <constraints>
+                          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <text value="Send to server..."/>
+                        </properties>
+                      </component>
+                      <component id="372f" class="javax.swing.JButton" binding="backButton" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <text value="Back"/>
+                        </properties>
+                      </component>
+                      <grid id="8b0a5" binding="progressBarPanel" layout-manager="CardLayout" hgap="0" vgap="0" show="f6cc7">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <gridbag top="5" left="5" bottom="5" right="5" weightx="0.9" weighty="0.0"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="1c959" class="javax.swing.JProgressBar" binding="sendProgressBar">
+                            <constraints>
+                              <card name="progressBarCard"/>
+                            </constraints>
+                            <properties>
+                              <indeterminate value="true"/>
+                            </properties>
+                          </component>
+                          <grid id="f6cc7" layout-manager="BorderLayout" hgap="0" vgap="0">
+                            <constraints>
+                              <card name="emptyCard"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children/>
+                          </grid>
+                          <component id="99a9e" class="javax.swing.JLabel">
+                            <constraints>
+                              <card name="readyCard"/>
+                            </constraints>
+                            <properties>
+                              <foreground color="-16777216"/>
+                              <horizontalAlignment value="0"/>
+                              <horizontalTextPosition value="4"/>
+                              <icon value="resources/check.png"/>
+                              <text value="Ready"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                      <hspacer id="b15f5">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="1.0" weighty="0.0"/>
+                        </constraints>
+                      </hspacer>
+                      <hspacer id="55f6f">
+                        <constraints>
+                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="1.0" weighty="0.0"/>
+                        </constraints>
+                      </hspacer>
+                    </children>
+                  </grid>
+                  <component id="3fe88" class="javax.swing.JTextArea" binding="taskEditTextArea">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="50"/>
+                      </grid>
+                      <gridbag top="10" left="10" bottom="0" right="10" weightx="0.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="Consolas" size="12"/>
+                      <text value="a"/>
+                    </properties>
+                  </component>
+                  <grid id="7aa36" layout-manager="GridBagLayout">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag top="10" left="10" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="ead00" class="javax.swing.JRadioButton" binding="chooseAFileRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <selected value="false"/>
+                          <text value="Choose a file"/>
+                        </properties>
+                      </component>
+                      <component id="9b9b3" class="javax.swing.JRadioButton" binding="inputAProgramRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <enabled value="true"/>
+                          <hideActionText value="false"/>
+                          <selected value="true"/>
+                          <text value="Input a program"/>
+                        </properties>
+                      </component>
+                      <hspacer id="2136">
+                        <constraints>
+                          <grid row="0" column="2" row-span="3" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="1.0" weighty="0.0"/>
+                        </constraints>
+                      </hspacer>
+                      <component id="db13b" class="javax.swing.JButton" binding="openButton" default-binding="true">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <gridbag top="10" left="20" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <enabled value="false"/>
+                          <text value="Open..."/>
+                        </properties>
+                      </component>
+                      <component id="7ec1f" class="javax.swing.JLabel" binding="fileNameLabel">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag top="0" left="10" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <enabled value="false"/>
+                          <text value="File is not chosen"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="ba5e8" binding="taskQueuePanel" layout-manager="GridBagLayout">
+            <constraints>
+              <card name="Card1"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="a7ca9" binding="HistoryPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <card name="Card2"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="6bfc" class="javax.swing.JButton" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <text value="3"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="taskCreate">
+      <member id="9b9b3"/>
+      <member id="ead00"/>
+    </group>
+  </buttonGroups>
+</form>
