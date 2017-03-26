@@ -2,39 +2,43 @@ import java.io.File;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
+import javax.swing.table.*;
 
-public class MainForm
+public class MainForm extends JFrame
 {
-
     private JPanel MainPanel;
     private JList menuList;
     private JPanel cardPanel;
     private JPanel newTaskPanel;
-    private JPanel taskQueuePanel;
-    private JPanel HistoryPanel;
     private JButton nextButton;
-    private JPanel taskEditCard;
     private JButton backButton;
     private JButton sendToServerButton;
     private JTextField taskNameField;
-    private JPanel taskPropsCard;
     private JTextArea taskEditTextArea;
     private JRadioButton chooseAFileRadioButton;
     private JRadioButton inputAProgramRadioButton;
     private JButton openButton;
     private JLabel fileNameLabel;
     private JPanel progressBarPanel;
-    private JProgressBar sendProgressBar;
-    private File programFile = null;
+    private JScrollPane taskQueuePanel;
+    private JTable taskQueueTable;
+    private JTable historyTable;
+    private JButton viewTaskDetailsButton;
+    private JButton discussTaskButton;
+    private JPanel historyPanel;
 
-    boolean programSendSuccess = false;
-    private final static Object sendLock = new Object();
+    private File programFile = null;
+    private boolean programSendSuccess = false;
+    private Communicator communicator;
 
     public static void main(String[] args)
     {
         try {
             UIManager.setLookAndFeel(javax.swing.plaf.nimbus.NimbusLookAndFeel.class.getCanonicalName());
+            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -45,12 +49,20 @@ public class MainForm
             e.printStackTrace();
         }
 
-        JFrame frame = new JFrame("MainForm");
-        frame.setContentPane(new MainForm().MainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        MainForm frame = new MainForm();
+        frame.setContentPane(frame.MainPanel);
         frame.setSize(700, 400);
         frame.setTitle("Virtual Machine Client");
         frame.setVisible(true);
+    }
+
+    public void onConnectionEstablished() {
+        communicator.updateTaskQueue();
+        communicator.updateHistory();
+    }
+
+    public void addMessage(String message) {
+        taskEditTextArea.setText(taskEditTextArea.getText() + "\n" + message);
     }
 
     private void showCard(JPanel panel, String name) {
@@ -71,17 +83,29 @@ public class MainForm
 
     private void sendProgramToServer()
     {
-        new Thread(new Runnable()
-        {
-            public void run() {
+        showCard(progressBarPanel, "progressBarCard");
+        enableTaskEdit(false);
+
+        new Thread(new Runnable() {
+            public void run()
+            {
+                programSendSuccess = true;
+
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-                programSendSuccess = true;
-                synchronized (sendLock) {
-                    sendLock.notify();
+
+                if (programSendSuccess) {
+                    showCard(progressBarPanel, "readyCard");
+                    backButton.setText("New Task");
+                }
+                else {
+                    showCard(progressBarPanel, "emptyCard");
+                    enableTaskEdit(true);
+                    JOptionPane.showMessageDialog(MainPanel,
+                            "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }).start();
@@ -89,9 +113,67 @@ public class MainForm
 
     public MainForm()
     {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                communicator.disconnect();
+                System.exit(0);
+            }
+        });
+
+        ListCellRenderer listRenderer = menuList.getCellRenderer();
+        menuList.setCellRenderer(new DefaultListCellRenderer() {
+            public Component getListCellRendererComponent(
+                    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+            {
+                JLabel label = (JLabel)listRenderer.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+                label.setBorder(new EmptyBorder(10, 10, 10, 10));
+                return label;
+            }
+        });
         menuList.setSelectedIndex(0);
         menuList.setFixedCellWidth(150);
         menuList.setFixedCellHeight(50);
+
+        {
+            DefaultTableModel model = new DefaultTableModel() {
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            taskQueueTable.setRowHeight(50);
+            //taskQueueTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            taskQueueTable.setRowSelectionAllowed(false);
+            taskQueueTable.getTableHeader().setReorderingAllowed(false);
+            taskQueueTable.setModel(model);
+            model.addColumn("Task Name");
+            model.addColumn("Start time");
+            model.addRow(new Object[]{"Task1", "2:28:13"});
+            model.addRow(new Object[]{"Task2", "13:37:41"});
+            model.addRow(new Object[]{"Solution", "11:37:15"});
+            model.addRow(new Object[]{"Regression", "12:37:15"});
+        }
+
+        {
+            DefaultTableModel model = new DefaultTableModel() {
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            historyTable.setRowHeight(50);
+            historyTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            historyTable.getTableHeader().setReorderingAllowed(false);
+            historyTable.setModel(model);
+            model.addColumn("Task Name");
+            model.addColumn("Start time");
+            model.addColumn("Status");
+            model.addColumn("Discussion");
+            model.addRow(new Object[]{"Task1", "2:28:13", "Complete", "0 message(s)"});
+            model.addRow(new Object[]{"Task2", "13:37:41", "Complete", "2 message(s)"});
+            model.addRow(new Object[]{"Solution", "11:37:15", "Failure", "6 message(s)"});
+            model.addRow(new Object[]{"Regression", "12:37:15", "Complete", "1 message(s)"});
+        }
 
         menuList.addListSelectionListener(new ListSelectionListener()
         {
@@ -169,39 +251,12 @@ public class MainForm
                 else {
                     int result = JOptionPane.showConfirmDialog(MainPanel, "Send program to server?",
                             "Confirmation", JOptionPane.OK_CANCEL_OPTION);
-
-                    if (result == 0) {
-                        showCard(progressBarPanel, "progressBarCard");
-                        enableTaskEdit(false);
-
-                        sendProgramToServer();
-
-                        new Thread(new Runnable()
-                        {
-                            public void run() {
-                                try {
-                                    synchronized (sendLock) {
-                                        sendLock.wait();
-                                    }
-                                } catch (InterruptedException e1) {
-                                    Thread.currentThread().interrupt();
-                                }
-                                if (programSendSuccess) {
-                                    showCard(progressBarPanel, "readyCard");
-                                    backButton.setText("New Task");
-                                }
-                                else {
-                                    showCard(progressBarPanel, "emptyCard");
-                                    enableTaskEdit(true);
-                                    JOptionPane.showMessageDialog(MainPanel,
-                                            "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-
-                            }
-                        }).start();
-                    }
+                    if (result == 0) sendProgramToServer();
                 }
             }
         });
+
+        communicator = new Communicator(this);
+        communicator.connect();
     }
 }
