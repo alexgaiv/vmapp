@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainForm">
-  <grid id="27dc6" binding="MainPanel" layout-manager="GridBagLayout">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="742" height="438"/>
     </constraints>
@@ -58,7 +58,7 @@
                 <children>
                   <grid id="625d7" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                       <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="0.0"/>
                     </constraints>
                     <properties/>
@@ -67,6 +67,7 @@
                       <component id="3bc1f" class="javax.swing.JLabel">
                         <constraints/>
                         <properties>
+                          <labelFor value="ed6f7"/>
                           <text value="Task Name:"/>
                         </properties>
                       </component>
@@ -251,64 +252,176 @@
               </grid>
             </children>
           </grid>
-          <scrollpane id="ed6f7" binding="taskQueuePanel">
+          <grid id="b93d6" binding="taskQueuePanel" layout-manager="CardLayout" hgap="0" vgap="0" show="3c273">
             <constraints>
               <card name="Card1"/>
             </constraints>
-            <properties/>
+            <properties>
+              <foreground color="-16777216"/>
+            </properties>
             <border type="none"/>
             <children>
-              <component id="441c3" class="javax.swing.JTable" binding="taskQueueTable">
-                <constraints/>
-                <properties>
-                  <autoResizeMode value="2"/>
-                  <fillsViewportHeight value="false"/>
-                  <updateSelectionOnSort value="true"/>
-                </properties>
-              </component>
+              <scrollpane id="ed6f7">
+                <constraints>
+                  <card name="taskQueueCard"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="441c3" class="javax.swing.JTable" binding="taskQueueTable">
+                    <constraints/>
+                    <properties>
+                      <autoResizeMode value="2"/>
+                      <fillsViewportHeight value="false"/>
+                      <updateSelectionOnSort value="true"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <grid id="d5b1b" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints>
+                  <card name="connectionFailedCard"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="626d5" class="javax.swing.JLabel">
+                    <constraints/>
+                    <properties>
+                      <foreground color="-65536"/>
+                      <text value="Connection failed"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="3c273" layout-manager="GridBagLayout">
+                <constraints>
+                  <card name="progressBarCard"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="7a8d6" class="javax.swing.JProgressBar" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.5" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <indeterminate value="true"/>
+                    </properties>
+                  </component>
+                  <hspacer id="cbd8a">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="0.0"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="b217e">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="0.0"/>
+                    </constraints>
+                  </hspacer>
+                </children>
+              </grid>
             </children>
-          </scrollpane>
-          <grid id="21e63" binding="historyPanel" layout-manager="GridBagLayout">
+          </grid>
+          <grid id="a624b" binding="historyPanel" layout-manager="CardLayout" hgap="0" vgap="0" show="9a95">
             <constraints>
               <card name="Card2"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <scrollpane id="abea9">
+              <grid id="21e63" layout-manager="GridBagLayout">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="1.0" weighty="1.0"/>
+                  <card name="historyCard"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="d2b60" class="javax.swing.JTable" binding="historyTable">
-                    <constraints/>
+                  <scrollpane id="abea9">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="1.0"/>
+                    </constraints>
                     <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="d2b60" class="javax.swing.JTable" binding="historyTable">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <grid id="fb06e" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="6959" class="javax.swing.JButton" binding="viewTaskDetailsButton" default-binding="true">
+                        <constraints/>
+                        <properties>
+                          <text value="View task details..."/>
+                        </properties>
+                      </component>
+                      <component id="209ea" class="javax.swing.JButton" binding="discussTaskButton" default-binding="true">
+                        <constraints/>
+                        <properties>
+                          <text value="Discuss task..."/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+              <grid id="65c5e" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints>
+                  <card name="connectionFailedCard"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="d7763" class="javax.swing.JLabel">
+                    <constraints/>
+                    <properties>
+                      <foreground color="-65536"/>
+                      <text value="Connection failed"/>
+                    </properties>
                   </component>
                 </children>
-              </scrollpane>
-              <grid id="fb06e" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+              </grid>
+              <grid id="9a95" layout-manager="GridBagLayout">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+                  <card name="progressBarCard"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="6959" class="javax.swing.JButton" binding="viewTaskDetailsButton" default-binding="true">
-                    <constraints/>
+                  <component id="d4fa0" class="javax.swing.JProgressBar" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.5" weighty="0.0"/>
+                    </constraints>
                     <properties>
-                      <text value="View task details..."/>
+                      <indeterminate value="true"/>
                     </properties>
                   </component>
-                  <component id="209ea" class="javax.swing.JButton" binding="discussTaskButton" default-binding="true">
-                    <constraints/>
-                    <properties>
-                      <text value="Discuss task..."/>
-                    </properties>
-                  </component>
+                  <hspacer id="2a99a">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="0.0"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="d0ae5">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="0.0"/>
+                    </constraints>
+                  </hspacer>
                 </children>
               </grid>
             </children>
