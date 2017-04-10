@@ -77,7 +77,7 @@
                   <gridbag top="0" left="0" bottom="0" right="70" weightx="0.5" weighty="0.0"/>
                 </constraints>
               </hspacer>
-              <scrollpane id="dabbb" binding="scrollPane">
+              <scrollpane id="dabbb">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag top="10" left="10" bottom="5" right="10" weightx="1.0" weighty="1.0"/>

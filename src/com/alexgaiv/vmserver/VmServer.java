@@ -323,11 +323,6 @@ public class VmServer
         void sendTaskMessages(int taskId, long since) throws IOException
         {
             try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
                 pullTaskMessagesStatement.setInt(1, taskId);
                 pullTaskMessagesStatement.setLong(2, since);
                 ResultSet rs = pullTaskMessagesStatement.executeQuery();
@@ -401,6 +396,22 @@ public class VmServer
             catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    private class ProgramExecutorThread extends Thread
+    {
+        @Override
+        public void run()
+        {
+            taskQueueLock.writeLock().lock();
+            Task task = taskQueue.removeFirst();
+            taskQueueLock.writeLock().unlock();
+
+            ProgramExecutor exec = new ProgramExecutor();
+            exec.execute(task.programText);
+
+
         }
     }
 

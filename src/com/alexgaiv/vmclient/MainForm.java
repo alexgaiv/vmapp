@@ -17,6 +17,7 @@ public class MainForm extends JFrame
     JPanel taskQueuePanel;
     JPanel historyPanel;
     final LinkedList<TaskDetailsFrame> taskDetailsFrames = new LinkedList<>();
+    final LinkedList<TaskDiscussFrame> taskDiscussFrames = new LinkedList<>();
 
     DefaultTableModel taskHistoryTableModel;
     DefaultTableModel taskQueueTableModel;
@@ -168,6 +169,18 @@ public class MainForm extends JFrame
     private void openTaskDiscussFrame(int taskId)
     {
         TaskDiscussFrame frame = new TaskDiscussFrame(communicator, taskId);
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                synchronized (taskDiscussFrames) {
+                    taskDiscussFrames.remove(frame);
+                }
+            }
+        });
+
+        synchronized (taskDiscussFrames) {
+            taskDiscussFrames.add(frame);
+        }
 
         frame.setLocationRelativeTo(this);
         frame.setTitle("Discuss - " + getSelectedTaskName());

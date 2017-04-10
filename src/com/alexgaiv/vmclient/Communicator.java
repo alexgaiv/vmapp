@@ -17,11 +17,6 @@ class Communicator
     private Socket socket = null;
     private boolean isConnectionEstablished = false;
 
-    private final Object taskMessagesLock = new Object();
-    private ArrayList<TaskMessage> taskMessages = null;
-    private boolean taskMessagesReceived = false;
-    private int taskMessagesTaskId = -1;
-
     private InetAddress IP;
     private final int PORT = 1337;
     private final long RECONNECT_TIMEOUT = 2000;
@@ -72,32 +67,9 @@ class Communicator
         messageDispatcher.send(onSuccess, onFail, "<newTaskMessage>", taskId, username, messageText);
     }
 
-    boolean pullTaskMessages(int taskId, long since, ArrayList<TaskMessage> messages)
+    void pullTaskMessages(int taskId, long since, EventCallback onSuccess, EventCallback onFail)
     {
-        messageDispatcher.send("<taskMessages>", taskId, since);
-        synchronized (taskMessagesLock) {
-            taskMessages = null;
-            try {
-                while (!(taskMessagesReceived &&
-                        taskMessagesTaskId == taskId &&
-                        isConnectionEstablished))
-                {
-                    taskMessagesLock.wait();
-                }
-                taskMessagesReceived = false;
-                taskMessagesTaskId = -1;
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                taskMessagesReceived = false;
-                taskMessagesTaskId = 0;
-                taskMessages = null;
-                return false;
-            }
-        }
-
-        if (isConnectionEstablished && taskMessages != null)
-            taskMessages.forEach(messages::add);
-        return isConnectionEstablished;
+        messageDispatcher.send(onSuccess, onFail, "<taskMessages>", taskId, since);
     }
 
     private class MessageListener extends Thread
@@ -147,11 +119,6 @@ class Communicator
 
         private void tryConnect() throws InterruptedException
         {
-            isConnectionEstablished = false;
-            synchronized (taskMessagesLock) {
-                taskMessagesLock.notify();
-            }
-
             if (socket != null && !socket.isClosed()) {
                 try {
                     socket.close();
@@ -264,11 +231,11 @@ class Communicator
                 hasNext = in.readBoolean();
             }
 
-            synchronized (taskMessagesLock) {
-                taskMessagesReceived = true;
-                taskMessagesTaskId = taskId;
-                taskMessages = messages;
-                taskMessagesLock.notify();
+            synchronized (form.taskDiscussFrames) {
+                for (TaskDiscussFrame frame : form.taskDiscussFrames) {
+                    if (frame.getTaskId() == taskId)
+                        frame.putMessages(messages);
+                }
             }
         }
     }
@@ -276,9 +243,9 @@ class Communicator
     private class MessageDispatcher extends Thread
     {
         private DataOutputStream out = null;
-        private final Object messageQueueLock = new Object();
-        private boolean messageAvailable = false;
-        private ArrayDeque<MessageQueueEntry> messageQueue = new ArrayDeque<>();
+        private boolean isMessageAvailable = false;
+        private final Object messageAvailableLock = new Object();
+        private final ArrayDeque<MessageQueueEntry> messageQueue = new ArrayDeque<>();
 
         private class MessageQueueEntry
         {
@@ -301,10 +268,10 @@ class Communicator
 
         void send(EventCallback onSuccess, EventCallback onFail, Object... messages)
         {
-            while (messageAvailable) {
-                synchronized (messageQueueLock) {
+            while (isMessageAvailable) {
+                synchronized (messageAvailableLock) {
                     try {
-                        messageQueueLock.wait();
+                        messageAvailableLock.wait();
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         return;
@@ -312,10 +279,13 @@ class Communicator
                 }
             }
 
-            messageQueue.addLast(new MessageQueueEntry(messages, onSuccess, onFail));
-            messageAvailable = true;
-            synchronized (messageQueueLock) {
-                messageQueueLock.notify();
+            synchronized (messageQueue) {
+                messageQueue.addLast(new MessageQueueEntry(messages, onSuccess, onFail));
+            }
+
+            isMessageAvailable = true;
+            synchronized (messageAvailableLock) {
+                messageAvailableLock.notify();
             }
         }
 
@@ -324,17 +294,20 @@ class Communicator
         {
             try {
                 while (!Thread.currentThread().isInterrupted()) {
-                    synchronized (messageQueueLock) {
-                        while (!messageAvailable) {
-                            messageQueueLock.wait();
+                    synchronized (messageAvailableLock) {
+                        while (!isMessageAvailable) {
+                            messageAvailableLock.wait();
                         }
                     }
-                    messageAvailable = false;
-                    synchronized (messageQueueLock) {
-                        messageQueueLock.notify();
+                    isMessageAvailable = false;
+                    synchronized (messageAvailableLock) {
+                        messageAvailableLock.notify();
                     }
 
-                    MessageQueueEntry entry = messageQueue.removeFirst();
+                    MessageQueueEntry entry;
+                    synchronized (messageQueue) {
+                        entry = messageQueue.removeFirst();
+                    }
                     Object[] messages = entry.messages;
 
                     try {

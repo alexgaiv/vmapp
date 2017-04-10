@@ -5,44 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b0ec566-1b2a-4bae-a211-f6850267c004" name="Default" comment="save">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDetailsFrame.form" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDetailsFrame.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/Communicator$MessageDispatcher.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/Communicator$MessageListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/Communicator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/ConnectionStateListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$10.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$11.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$12.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$13.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$14.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$6.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$7.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$8.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm$9.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/MainForm.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/TaskDetails.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/VmServer$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/VmServer$ClientThread.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/VmServer$ServerThread.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/VmServer$Task.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/awt1/VmServer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/ConnectionStateListener.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/MainForm.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/TaskDetails.form" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/TaskDetails.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/VmServer.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Communicator.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/MainForm.form" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/Communicator$MessageDispatcher$MessageQueueEntry.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/Communicator$MessageDispatcher$MessageQueueEntry.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/Communicator$MessageDispatcher.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/Communicator$MessageDispatcher.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/Communicator$MessageListener.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/Communicator$MessageListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/Communicator.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/Communicator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$1.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$2.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$3.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$4.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$5.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$6.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$7.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/MainForm.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame$1.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame$2.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame$3.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame$ServerListener.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame$ServerListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskDiscussFrame.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskMessage.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmclient/TaskMessage.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmserver/VmServer$ClientNotifier.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmserver/VmServer$ClientNotifier.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmserver/VmServer$ClientThread.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmserver/VmServer$ClientThread.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmserver/VmServer.class" afterPath="$PROJECT_DIR$/out/production/awt1/com/alexgaiv/vmserver/VmServer.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm.db" afterPath="$PROJECT_DIR$/vm.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.form" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,7 +44,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/awt1$MainForm.coverage" NAME="MainForm Coverage Results" MODIFIED="1491240032913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/awt1$VmServer.coverage" NAME="VmServer Coverage Results" MODIFIED="1491241782398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/awt1$VmServer.coverage" NAME="VmServer Coverage Results" MODIFIED="1491746347618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -68,20 +58,18 @@
       <file leaf-file-name="MainForm.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="2800">
+              <caret line="184" column="0" lean-forward="false" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VmServer.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="VmServer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="324" column="17" lean-forward="true" selection-start-line="324" selection-start-column="17" selection-end-line="324" selection-end-column="17" />
+            <state relative-caret-position="80">
+              <caret line="352" column="48" lean-forward="true" selection-start-line="352" selection-start-column="48" selection-end-line="352" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -89,11 +77,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Communicator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProgramExecutor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/ProgramExecutor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="5" column="30" lean-forward="false" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Communicator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="77" column="41" lean-forward="true" selection-start-line="77" selection-start-column="41" selection-end-line="77" selection-end-column="41" />
+            <state relative-caret-position="4528">
+              <caret line="286" column="49" lean-forward="false" selection-start-line="286" selection-start-column="49" selection-end-line="286" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -104,14 +102,19 @@
       <file leaf-file-name="TaskDiscussFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="138" column="68" lean-forward="true" selection-start-line="138" selection-start-column="68" selection-end-line="138" selection-end-column="68" />
+            <state relative-caret-position="1568">
+              <caret line="114" column="15" lean-forward="false" selection-start-line="114" selection-start-column="15" selection-end-line="114" selection-end-column="15" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2696#2846#0" expanded="true" />
-                <element signature="e#2845#2846#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TaskDiscussFrame.form" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.form">
+          <provider selected="true" editor-type-id="ui-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -206,10 +209,11 @@
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDetailsFrame.form" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.form" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java" />
-        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java" />
+        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.form" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java" />
-        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java" />
+        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmserver/ProgramExecutor.java" />
+        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java" />
       </list>
     </option>
   </component>
@@ -268,6 +272,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
@@ -394,7 +399,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -402,7 +406,7 @@
     <property name="ToolWindowMaven Projects.ShowToolbar" value="false" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.STATE" value="ToolWindow" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.STATE" value="right" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.smartKeys" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH" value="169" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -695,7 +699,6 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30114567" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -707,8 +710,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21374622" sideWeight="0.4942717" order="10" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21374622" sideWeight="0.4942717" order="10" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24924472" sideWeight="0.4942717" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.24962178" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21903323" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" x="457" y="137" width="451" height="454" />
@@ -719,8 +721,10 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30114567" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.39728096" sideWeight="0.5286416" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -793,21 +797,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/lang/Override.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="50" column="18" lean-forward="false" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/javax/swing/JList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="768" column="16" lean-forward="false" selection-start-line="768" selection-start-column="16" selection-end-line="768" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/javax/swing/DefaultListCellRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-205">
@@ -885,13 +874,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="110" column="19" lean-forward="false" selection-start-line="110" selection-start-column="19" selection-end-line="110" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/io/PrintStream.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -907,13 +889,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/ConnectionStateListener.java" />
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/util/ArrayDeque.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-509">
-          <caret line="276" column="13" lean-forward="false" selection-start-line="276" selection-start-column="13" selection-end-line="276" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/awt/event/ActionListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -939,7 +914,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
           <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -987,7 +961,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="211">
           <caret line="2678" column="33" lean-forward="false" selection-start-line="2678" selection-start-column="33" selection-end-line="2678" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -995,7 +968,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
           <caret line="2090" column="22" lean-forward="false" selection-start-line="2090" selection-start-column="22" selection-end-line="2090" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1046,7 +1018,7 @@
         <state relative-caret-position="74">
           <caret line="34" column="28" lean-forward="false" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1055,7 +1027,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="354" column="19" lean-forward="false" selection-start-line="354" selection-start-column="19" selection-end-line="354" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1063,10 +1034,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="4709" column="22" lean-forward="false" selection-start-line="4709" selection-start-column="22" selection-end-line="4709" selection-end-column="22" />
-          <folding>
-            <element signature="e#167794#167795#0" expanded="false" />
-            <element signature="e#167830#167831#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1074,7 +1041,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="427" column="13" lean-forward="false" selection-start-line="427" selection-start-column="13" selection-end-line="427" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1082,7 +1048,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="93" column="23" lean-forward="false" selection-start-line="93" selection-start-column="23" selection-end-line="93" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1090,7 +1055,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="354" column="23" lean-forward="false" selection-start-line="354" selection-start-column="23" selection-end-line="354" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1098,7 +1062,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
           <caret line="501" column="0" lean-forward="false" selection-start-line="501" selection-start-column="0" selection-end-line="501" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1106,17 +1069,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="1212" column="46" lean-forward="true" selection-start-line="1212" selection-start-column="46" selection-end-line="1212" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1124,13 +1076,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="48" column="9" lean-forward="false" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2800">
+          <caret line="184" column="0" lean-forward="false" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/util/ArrayDeque.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="186" column="11" lean-forward="false" selection-start-line="186" selection-start-column="11" selection-end-line="186" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4528">
+          <caret line="286" column="49" lean-forward="false" selection-start-line="286" selection-start-column="49" selection-end-line="286" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.form">
@@ -1140,30 +1116,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="138" column="68" lean-forward="true" selection-start-line="138" selection-start-column="68" selection-end-line="138" selection-end-column="68" />
+        <state relative-caret-position="1568">
+          <caret line="114" column="15" lean-forward="false" selection-start-line="114" selection-start-column="15" selection-end-line="114" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2696#2846#0" expanded="true" />
-            <element signature="e#2845#2846#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/lang/CharSequence.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="67">
+          <caret line="50" column="49" lean-forward="false" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="111" column="65" lean-forward="true" selection-start-line="111" selection-start-column="65" selection-end-line="111" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/ProgramExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="30" lean-forward="false" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="324" column="17" lean-forward="true" selection-start-line="324" selection-start-column="17" selection-end-line="324" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="77" column="41" lean-forward="true" selection-start-line="77" selection-start-column="41" selection-end-line="77" selection-end-column="41" />
+        <state relative-caret-position="80">
+          <caret line="352" column="48" lean-forward="true" selection-start-line="352" selection-start-column="48" selection-end-line="352" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
