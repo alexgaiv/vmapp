@@ -5,10 +5,16 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.*;
 
 public class MainForm extends JFrame
@@ -21,6 +27,8 @@ public class MainForm extends JFrame
 
     DefaultTableModel taskHistoryTableModel;
     DefaultTableModel taskQueueTableModel;
+
+    private ArrayList<Image> frameIcons = new ArrayList<>();
 
     private JPanel mainPanel;
     private JList<String> menuList;
@@ -46,17 +54,14 @@ public class MainForm extends JFrame
     private boolean connectionFailedFirstTime = true;
     private Communicator communicator;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(javax.swing.plaf.nimbus.NimbusLookAndFeel.class.getCanonicalName());
-            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(NimbusLookAndFeel.class.getCanonicalName());
         } catch (
                 ClassNotFoundException |
-                InstantiationException |
-                IllegalAccessException |
-                UnsupportedLookAndFeelException e)
-        {
+                        InstantiationException |
+                        IllegalAccessException |
+                        UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
 
@@ -65,7 +70,7 @@ public class MainForm extends JFrame
     }
 
     void showCard(JPanel panel, String name) {
-        CardLayout layout = (CardLayout)panel.getLayout();
+        CardLayout layout = (CardLayout) panel.getLayout();
         layout.show(panel, name);
     }
 
@@ -89,16 +94,14 @@ public class MainForm extends JFrame
         connectionEstablished = false;
     }
 
-    private int getSelectedTaskId()
-    {
-        int row = historyTable.getSelectedRow();
-        return Integer.valueOf((String)taskHistoryTableModel.getValueAt(row, 0));
+    private int getSelectedTaskId() {
+        int row = historyTable.convertRowIndexToModel(historyTable.getSelectedRow());
+        return (Integer) taskHistoryTableModel.getValueAt(row, 0);
     }
 
-    private String getSelectedTaskName()
-    {
-        int row = historyTable.getSelectedRow();
-        return (String)taskHistoryTableModel.getValueAt(row, 1);
+    private String getSelectedTaskName() {
+        int row = historyTable.convertRowIndexToModel(historyTable.getSelectedRow());
+        return (String) taskHistoryTableModel.getValueAt(row, 1);
     }
 
     private void enableTaskEdit(boolean enabled) {
@@ -112,17 +115,15 @@ public class MainForm extends JFrame
         sendToServerButton.setEnabled(enabled);
     }
 
-    private void sendProgramToServer()
-    {
+    private void sendProgramToServer() {
         showCard(progressBarPanel, "progressBarCard");
         enableTaskEdit(false);
         programSendSuccess = false;
 
-        String programText = null;
+        String programText;
         if (inputAProgramRadioButton.isSelected()) {
             programText = taskEditTextArea.getText();
-        }
-        else {
+        } else {
             try {
                 programText = new String(Files.readAllBytes(programFile.toPath()), Charset.defaultCharset());
             } catch (IOException e) {
@@ -146,11 +147,12 @@ public class MainForm extends JFrame
         });
     }
 
-    private void openTaskDetailsFrame(int taskId)
-    {
+    private void openTaskDetailsFrame(int taskId) {
         TaskDetailsFrame frame = new TaskDetailsFrame(communicator, taskId);
+        frame.setIconImages(frameIcons);
 
-        frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter()
+        {
             public void windowClosing(WindowEvent e) {
                 synchronized (taskDetailsFrames) {
                     taskDetailsFrames.remove(frame);
@@ -166,11 +168,12 @@ public class MainForm extends JFrame
         frame.setVisible(true);
     }
 
-    private void openTaskDiscussFrame(int taskId)
-    {
+    private void openTaskDiscussFrame(int taskId) {
         TaskDiscussFrame frame = new TaskDiscussFrame(communicator, taskId);
+        frame.setIconImages(frameIcons);
 
-        frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter()
+        {
             public void windowClosing(WindowEvent e) {
                 synchronized (taskDiscussFrames) {
                     taskDiscussFrames.remove(frame);
@@ -187,14 +190,23 @@ public class MainForm extends JFrame
         frame.setVisible(true);
     }
 
-    public MainForm()
-    {
+    public MainForm() {
         setContentPane(mainPanel);
         setSize(900, 500);
         setLocationByPlatform(true);
         setTitle("Virtual Machine Client");
 
-        addWindowListener(new WindowAdapter() {
+        int[] iconSizes = {16, 32, 64, 128};
+        for (int s : iconSizes) {
+            String resourceName = String.format("com/alexgaiv/vmclient/resources/icon%d.png", s);
+            URL iconUrl = ClassLoader.getSystemResource(resourceName);
+            if (iconUrl != null)
+                frameIcons.add(new ImageIcon(iconUrl).getImage());
+        }
+        this.setIconImages(frameIcons);
+
+        addWindowListener(new WindowAdapter()
+        {
             public void windowClosing(WindowEvent e) {
                 communicator.disconnect();
                 System.exit(0);
@@ -202,13 +214,13 @@ public class MainForm extends JFrame
         });
 
         ListCellRenderer<? super String> listRenderer = menuList.getCellRenderer();
-        menuList.setCellRenderer(new DefaultListCellRenderer() {
+        menuList.setCellRenderer(new DefaultListCellRenderer()
+        {
             @Override
             public Component getListCellRendererComponent(
-                    JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
-            {
+                    JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 JLabel label = (JLabel) listRenderer.getListCellRendererComponent(
-                        menuList, (String)value, index, isSelected, cellHasFocus);
+                        menuList, (String) value, index, isSelected, cellHasFocus);
                 label.setBorder(new EmptyBorder(10, 10, 10, 10));
                 return label;
             }
@@ -217,33 +229,98 @@ public class MainForm extends JFrame
         menuList.setFixedCellWidth(150);
         menuList.setFixedCellHeight(50);
 
-        taskQueueTableModel = new DefaultTableModel() {
+        DefaultTableCellRenderer dateCellRenderer = new DefaultTableCellRenderer()
+        {
+            SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.US);
+
+            public void setValue(Object value) {
+                setText(value == null ? "" : format.format(value));
+            }
+        };
+
+        taskQueueTableModel = new DefaultTableModel()
+        {
+            @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                switch (columnIndex) {
+                    case 1:
+                        return Date.class;
+                    case 2:
+                        return TaskStatus.class;
+                    default:
+                        return String.class;
+                }
+            }
         };
+
         taskQueueTable.setRowHeight(50);
         taskQueueTable.setRowSelectionAllowed(false);
         taskQueueTable.getTableHeader().setReorderingAllowed(false);
         taskQueueTable.setModel(taskQueueTableModel);
+        taskQueueTable.setAutoCreateRowSorter(true);
         taskQueueTableModel.addColumn("Task Name");
         taskQueueTableModel.addColumn("Creation date");
+        taskQueueTableModel.addColumn("Status");
 
-        taskHistoryTableModel = new DefaultTableModel() {
+        taskQueueTable.getColumnModel().getColumn(1).setCellRenderer(dateCellRenderer);
+
+        taskHistoryTableModel = new DefaultTableModel()
+        {
+            @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                switch (columnIndex) {
+                    case 0:
+                        return Integer.class;
+                    case 2:
+                        return Date.class;
+                    case 3:
+                        return Double.class;
+                    case 4:
+                        return TaskStatus.class;
+                    case 5:
+                        return Integer.class;
+                    default:
+                        return String.class;
+                }
             }
         };
         historyTable.setRowHeight(50);
         historyTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         historyTable.getTableHeader().setReorderingAllowed(false);
         historyTable.setModel(taskHistoryTableModel);
+        historyTable.setAutoCreateRowSorter(true);
         taskHistoryTableModel.addColumn("id");
         taskHistoryTableModel.addColumn("Task Name");
         taskHistoryTableModel.addColumn("Creation Date");
         taskHistoryTableModel.addColumn("Execution Time");
         taskHistoryTableModel.addColumn("Status");
         taskHistoryTableModel.addColumn("Discussion");
+
+        TableColumnModel columnModel = historyTable.getColumnModel();
+        columnModel.getColumn(2).setCellRenderer(dateCellRenderer);
+        columnModel.getColumn(3).setCellRenderer(new DefaultTableCellRenderer()
+        {
+            public void setValue(Object value) {
+                setText(value == null ? "" : value.toString() + " ms");
+            }
+        });
+        columnModel.getColumn(5).setCellRenderer(new DefaultTableCellRenderer()
+        {
+            public void setValue(Object value) {
+                setText(value == null ? "" : value.toString() + " message(s)");
+            }
+        });
+
         historyTable.removeColumn(historyTable.getColumnModel().getColumn(0));
 
         historyTable.getSelectionModel().addListSelectionListener(e -> {
@@ -258,8 +335,7 @@ public class MainForm extends JFrame
             if (taskNameField.getText().length() == 0) {
                 JOptionPane.showMessageDialog(mainPanel, "Task name cannot be empty",
                         "Error", JOptionPane.WARNING_MESSAGE);
-            }
-            else showCard(newTaskPanel, "taskEditCard");
+            } else showCard(newTaskPanel, "taskEditCard");
         };
 
         nextButton.addActionListener(createTaskListener);
@@ -292,19 +368,16 @@ public class MainForm extends JFrame
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose a file");
             int result = fileChooser.showDialog(mainPanel, "OK");
-            if (result == JFileChooser.APPROVE_OPTION)
-            {
+            if (result == JFileChooser.APPROVE_OPTION) {
                 programFile = fileChooser.getSelectedFile();
                 fileNameLabel.setText(programFile.getName());
             }
         });
         sendToServerButton.addActionListener(e -> {
-            if (programFile == null && taskEditTextArea.getText().length() == 0)
-            {
+            if (programFile == null && taskEditTextArea.getText().length() == 0) {
                 JOptionPane.showMessageDialog(mainPanel, "Empty program",
                         "Error", JOptionPane.WARNING_MESSAGE);
-            }
-            else {
+            } else {
                 int result = JOptionPane.showConfirmDialog(mainPanel, "Send program to server?",
                         "Confirmation", JOptionPane.OK_CANCEL_OPTION);
                 if (result == 0) sendProgramToServer();
@@ -314,7 +387,8 @@ public class MainForm extends JFrame
         communicator = new Communicator(this);
         communicator.connect();
 
-        AbstractAction viewTaskDetailsAction = new AbstractAction() {
+        AbstractAction viewTaskDetailsAction = new AbstractAction()
+        {
             public void actionPerformed(ActionEvent e) {
                 openTaskDetailsFrame(getSelectedTaskId());
             }
@@ -328,11 +402,10 @@ public class MainForm extends JFrame
         historyTable.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2)
-                {
+                if (e.getClickCount() == 2) {
                     Point p = e.getPoint();
-                    int row = historyTable.rowAtPoint(p);
-                    int taskId = Integer.valueOf((String)taskHistoryTableModel.getValueAt(row, 0));
+                    int row = historyTable.convertRowIndexToModel(historyTable.rowAtPoint(p));
+                    int taskId = (Integer) taskHistoryTableModel.getValueAt(row, 0);
                     openTaskDetailsFrame(taskId);
                 }
             }

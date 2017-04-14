@@ -163,7 +163,7 @@
                               <foreground color="-16777216"/>
                               <horizontalAlignment value="0"/>
                               <horizontalTextPosition value="4"/>
-                              <icon value="resources/check.png"/>
+                              <icon value="com/alexgaiv/vmclient/resources/check.png"/>
                               <text value="Ready"/>
                             </properties>
                           </component>

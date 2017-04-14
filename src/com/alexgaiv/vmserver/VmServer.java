@@ -3,39 +3,52 @@ package com.alexgaiv.vmserver;
 import java.net.*;
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.concurrent.locks.*;
+import java.util.concurrent.*;
+
+enum TaskStatus
+{
+    WAITING(2),
+    RUNNING(3);
+
+    TaskStatus(int code) { this.code = code; }
+    int getCode() { return code; }
+    private int code;
+}
+
+class Task
+{
+    String name = "";
+    long creationDate = 0;
+    String programText = "";
+    TaskStatus status = TaskStatus.WAITING;
+
+    public Task() { }
+
+    public Task(String name, long creationDate) {
+        this.name = name;
+        this.creationDate = creationDate;
+    }
+}
 
 public class VmServer
 {
+    private final int MAX_EXEC_THREAD = 5;
     private ServerThread serverThread;
     private ClientNotifier notifierThread;
+    private ExecutorService executorService;
+    private boolean started = false;
+
     private ServerSocket socket;
-    private final int port = 1337;
+    private final int PORT = 1337;
     private boolean isServerShutdown = false;
 
-    private Connection connection;
-
-    private final ArrayDeque<Task> taskQueue = new ArrayDeque<>();
+    private LinkedBlockingQueue<Task> taskQueue = new LinkedBlockingQueue<>();
+    private LinkedBlockingQueue<Task> runningTasks = new LinkedBlockingQueue<>();
     private ArrayList<ClientThread> clients = new ArrayList<>();
-
-    private ReadWriteLock taskQueueLock = new ReentrantReadWriteLock();
     private final Object clientsLock = new Object();
 
-    private class Task
-    {
-        String name = "";
-        long creationDate = 0;
-        String programText = "";
-
-        public Task() { }
-
-        public Task(String name, long creationDate) {
-            this.name = name;
-            this.creationDate = creationDate;
-        }
-    }
+    private Connection connection;
 
     private static final String taskHistoryQuery =
         "SELECT id, name, creation_date, exec_time, status, IFNULL(count, 0) as count " +
@@ -58,12 +71,15 @@ public class VmServer
     private static final String newTaskMessageQuery =
             "INSERT INTO messages (task_id, username, message, date) VALUES (?, ?, ?, ?)";
 
-    public void start() throws IOException
+    private static final String newTaskQuery =
+            "INSERT INTO task_history (name, creation_date, program_text, output, status, exec_time) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
+
+    public void start() throws IOException, IllegalStateException
     {
-        taskQueue.addLast(new Task("Bubble", 32534534));
-        taskQueue.addLast(new Task("Complex", 564545));
-        taskQueue.addLast(new Task("MPI", 45645654));
-        taskQueue.addLast(new Task("OpenMP", 45634543));
+        if (started)
+            throw new IllegalStateException("Server already running");
+        started = true;
 
         try {
             Class.forName("org.sqlite.JDBC");
@@ -77,23 +93,40 @@ public class VmServer
             e.printStackTrace();
         }
 
-        socket = new ServerSocket(port);
-        notifierThread = new ClientNotifier();
+        socket = new ServerSocket(PORT);
+
         serverThread = new ServerThread();
+        notifierThread = new ClientNotifier();
+        executorService = Executors.newFixedThreadPool(MAX_EXEC_THREAD);
+
         notifierThread.start();
         serverThread.start();
     }
 
-    public void shutdown() throws IOException
+    public void shutdown() throws IOException, IllegalStateException
     {
+        if (!started)
+            throw new IllegalStateException("Server is not running");
+
+        System.out.println("server shutdown...");
+
         isServerShutdown = true;
         serverThread.interrupt();
         notifierThread.interrupt();
-        socket.close();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             serverThread.join();
             notifierThread.join();
+            executorService.shutdown();
+            boolean terminated = executorService.awaitTermination(5, TimeUnit.SECONDS);
+            if (!terminated) {
+                System.out.println("warning: there are uncompleted tasks");
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -113,6 +146,8 @@ public class VmServer
 
     private class ServerThread extends Thread
     {
+        ServerThread() { super("ServerThread"); }
+
         @Override
         public void run()
         {
@@ -126,7 +161,7 @@ public class VmServer
                     }
                     client.start();
                 } catch (SocketException e) {
-                    System.out.println("server shutdown");
+                    // Socket closed by VmServer::shutdown
                     return;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -148,6 +183,7 @@ public class VmServer
         private int index = 0;
 
         ClientThread(Socket socket) throws IOException {
+            super("ClientThread");
             this.socket = socket;
             in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
@@ -213,6 +249,7 @@ public class VmServer
                             break;
                         case "<newTask>":
                             newTask();
+                            break;
                         case "<taskMessages>":
                             sendTaskMessages(in.readInt(), in.readLong());
                             break;
@@ -235,11 +272,9 @@ public class VmServer
             task.programText = in.readUTF();
             task.creationDate = new java.util.Date().getTime();
 
-            taskQueueLock.writeLock().lock();
-            taskQueue.addLast(task);
-            taskQueueLock.writeLock().unlock();
-
-            notifierThread.notifyTaskQueue();
+            taskQueue.offer(task);
+            notifierThread.notifyClients(true, false);
+            executorService.execute(new ProgramExecutorThread());
         }
 
         private void newTaskMessage(int taskId, String username, String text) throws IOException
@@ -282,13 +317,19 @@ public class VmServer
         {
             out.writeUTF("<taskQueue>");
 
-            taskQueueLock.readLock().lock();
             for (Task task : taskQueue) {
                 out.writeBoolean(true);
                 out.writeUTF(task.name);
                 out.writeLong(task.creationDate);
+                out.writeInt(task.status.getCode());
             }
-            taskQueueLock.readLock().unlock();
+
+            for (Task task : runningTasks) {
+                out.writeBoolean(true);
+                out.writeUTF(task.name);
+                out.writeLong(task.creationDate);
+                out.writeInt(task.status.getCode());
+            }
 
             out.writeBoolean(false);
             out.flush();
@@ -329,7 +370,6 @@ public class VmServer
 
                 out.writeUTF("<taskMessages>");
                 out.writeInt(taskId);
-                out.writeLong(since);
 
                 while (rs.next()) {
                     out.writeBoolean(true);
@@ -350,20 +390,18 @@ public class VmServer
     private class ClientNotifier extends Thread
     {
         private final Object lock = new Object();
-        private boolean updateTaskQueue = false;
-        private boolean updateTaskHistory = false;
+        private long updateTaskQueue = 0;
+        private long updateTaskHistory = 0;
 
-        void notifyTaskQueue() {
-            updateTaskQueue = true;
-            synchronized (lock) {
-                lock.notify();
-            }
-        }
+        ClientNotifier() { super("ClientNotifier"); }
 
-        void notifyTaskHistory() {
-            updateTaskHistory = true;
+        void notifyClients(boolean taskQueueChanged, boolean taskHistoryChanged) {
             synchronized (lock) {
-                lock.notify();
+                if (taskQueueChanged) updateTaskQueue++;
+                if (taskHistoryChanged) updateTaskHistory++;
+
+                if (updateTaskQueue == 1 || updateTaskHistory == 1)
+                    lock.notify();
             }
         }
 
@@ -372,24 +410,30 @@ public class VmServer
         {
             try {
                 while (!Thread.currentThread().isInterrupted()) {
+                    boolean fUpdateTaskQueue;
+                    boolean fUpdateTaskHistory;
+
                     synchronized (lock) {
-                        while (!updateTaskQueue && !updateTaskHistory) {
+                        while (updateTaskQueue == 0 && updateTaskHistory == 0)
                             lock.wait();
-                        }
+                        fUpdateTaskQueue = updateTaskQueue != 0;
+                        fUpdateTaskHistory = updateTaskHistory != 0;
+                        updateTaskQueue = updateTaskHistory = 0;
                     }
 
                     synchronized (clientsLock) {
                         for (ClientThread c : clients) {
                             try {
-                                if (updateTaskQueue)
+                                if (fUpdateTaskQueue)
                                     c.sendTaskQueue();
-                                if (updateTaskHistory)
+                                if (fUpdateTaskHistory)
                                     c.sendTaskHistory();
-                            } catch (IOException e) { }
+                            } catch (IOException e) {
+                                // ignore
+                            }
                         }
                     }
 
-                    updateTaskQueue = updateTaskHistory = false;
                     Thread.sleep(1000);
                 }
             }
@@ -399,19 +443,43 @@ public class VmServer
         }
     }
 
-    private class ProgramExecutorThread extends Thread
+    private class ProgramExecutorThread implements Runnable
     {
         @Override
         public void run()
         {
-            taskQueueLock.writeLock().lock();
-            Task task = taskQueue.removeFirst();
-            taskQueueLock.writeLock().unlock();
+            try {
+                Task task = taskQueue.take();
+                task.status = TaskStatus.RUNNING;
+                runningTasks.put(task);
 
-            ProgramExecutor exec = new ProgramExecutor();
-            exec.execute(task.programText);
+                notifierThread.notifyClients(true, false);
 
+                ProgramExecutor exec = new ProgramExecutor();
 
+                long dt = new java.util.Date().getTime();
+                ProgramExecuteResult result = exec.execute(task.programText);
+                dt = new java.util.Date().getTime() - dt;
+
+                try (PreparedStatement st = connection.prepareStatement(newTaskQuery)) {
+                    st.setString(1, task.name);
+                    st.setLong(2, task.creationDate);
+                    st.setString(3, task.programText);
+                    st.setString(4, result.programOutput);
+                    st.setInt(5, result.success ? 1 : 0);
+                    st.setDouble(6, (double) dt);
+
+                    st.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                runningTasks.remove(task);
+                notifierThread.notifyClients(true, true);
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 

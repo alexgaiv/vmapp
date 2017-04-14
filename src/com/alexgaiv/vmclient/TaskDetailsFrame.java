@@ -19,10 +19,11 @@ class TaskDetailsFrame extends JFrame
     private int taskId;
     private Communicator comm;
 
-    int getTaskId() { return taskId; }
+    int getTaskId() {
+        return taskId;
+    }
 
-    TaskDetailsFrame(Communicator comm, int taskId)
-    {
+    TaskDetailsFrame(Communicator comm, int taskId) {
         this.comm = comm;
         this.taskId = taskId;
 
@@ -40,8 +41,7 @@ class TaskDetailsFrame extends JFrame
         });
     }
 
-    void setTaskInfo(TaskInfo t)
-    {
+    void setTaskInfo(TaskInfo t) {
         String dateString = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.US).format(t.creationDate);
 
         setTitle("Task Details - " + t.name);
@@ -51,7 +51,8 @@ class TaskDetailsFrame extends JFrame
         statusLabel.setText(t.status ? "Completed" : "Failed");
         programTextField.setText(t.programText);
         programOutputField.setText(t.programOutput);
-        CardLayout layout = (CardLayout)mainPanel.getLayout();
+        CardLayout layout = (CardLayout) mainPanel.getLayout();
         layout.show(mainPanel, "taskDetailsCard");
     }
+
 }

@@ -1,7 +1,5 @@
 package com.alexgaiv.vmclient;
 
-import sun.plugin2.ipc.windows.WindowsEvent;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -10,7 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
@@ -42,10 +39,11 @@ class TaskDiscussFrame extends JFrame
     private static String username = "";
     private Communicator comm;
 
-    int getTaskId() { return taskId; }
+    int getTaskId() {
+        return taskId;
+    }
 
-    TaskDiscussFrame(Communicator comm, int taskId)
-    {
+    TaskDiscussFrame(Communicator comm, int taskId) {
         this.comm = comm;
         this.taskId = taskId;
 
@@ -64,10 +62,19 @@ class TaskDiscussFrame extends JFrame
             sendMessage();
         });
 
-        messageTextField.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) { handle(); }
-            public void removeUpdate(DocumentEvent e) { handle(); }
-            public void insertUpdate(DocumentEvent e) { handle(); }
+        messageTextField.getDocument().addDocumentListener(new DocumentListener()
+        {
+            public void changedUpdate(DocumentEvent e) {
+                handle();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                handle();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                handle();
+            }
 
             private void handle() {
                 boolean enable = messageTextField.getText().length() != 0;
@@ -75,13 +82,15 @@ class TaskDiscussFrame extends JFrame
             }
         });
 
-        usernameField.addFocusListener(new FocusAdapter() {
+        usernameField.addFocusListener(new FocusAdapter()
+        {
             public void focusLost(FocusEvent e) {
                 username = usernameField.getText();
             }
         });
 
-        this.addWindowListener(new WindowAdapter() {
+        this.addWindowListener(new WindowAdapter()
+        {
             @Override
             public void windowClosing(WindowEvent e) {
                 serverListenerThread.interrupt();
@@ -93,33 +102,31 @@ class TaskDiscussFrame extends JFrame
         serverListenerThread = new ServerListener();
 
         comm.pullTaskMessages(taskId, 0, e -> {
-            serverListenerThread.start();
-        },
-        e -> {
-            JOptionPane.showMessageDialog(mainPanel,
-                    "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
-            dispatchEvent(new WindowEvent(TaskDiscussFrame.this, WindowEvent.WINDOW_CLOSING));
-            dispose();
-        });
+                    serverListenerThread.start();
+                },
+                e -> {
+                    JOptionPane.showMessageDialog(mainPanel,
+                            "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
+                    dispatchEvent(new WindowEvent(TaskDiscussFrame.this, WindowEvent.WINDOW_CLOSING));
+                    dispose();
+                });
     }
 
-    private void sendMessage()
-    {
+    private void sendMessage() {
         String username = usernameField.getText();
         if (username.length() == 0) username = "Anonymous";
 
         comm.sendTaskMessage(taskId, username, messageTextField.getText(),
-        e1 -> {
-            comm.pullTaskMessages(taskId, lastMessageDate, null, null);
-        },
-        e1 -> {
-            JOptionPane.showMessageDialog(mainPanel,
-                    "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
-        });
+                e1 -> {
+                    comm.pullTaskMessages(taskId, lastMessageDate, null, null);
+                },
+                e1 -> {
+                    JOptionPane.showMessageDialog(mainPanel,
+                            "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
+                });
     }
 
-    private void addMessage(TaskMessage m)
-    {
+    private void addMessage(TaskMessage m) {
         String dateString = new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.US).format(m.date);
         String s = String.format("%s [%s]\n%s\n\n", m.username, dateString, m.messageText);
 
@@ -132,8 +139,7 @@ class TaskDiscussFrame extends JFrame
         textPaneDoc.setParagraphAttributes(l, 1, messageHeaderStyle, false);
     }
 
-    void putMessages(ArrayList<TaskMessage> messages)
-    {
+    void putMessages(ArrayList<TaskMessage> messages) {
         if (messages.size() > 0) {
             for (TaskMessage m : messages) {
                 if (m.date.getTime() >= lastMessageDate && m.messageId != lastMessageId)
@@ -145,7 +151,7 @@ class TaskDiscussFrame extends JFrame
             lastMessageId = lastMessage.messageId;
         }
 
-        CardLayout layout = (CardLayout)mainPanel.getLayout();
+        CardLayout layout = (CardLayout) mainPanel.getLayout();
         layout.show(mainPanel, "discussCard");
     }
 
@@ -154,16 +160,13 @@ class TaskDiscussFrame extends JFrame
         private final static int UPDATE_TIMEOUT = 1500;
 
         @Override
-        public void run()
-        {
+        public void run() {
             try {
-                while (!Thread.currentThread().isInterrupted())
-                {
+                while (!Thread.currentThread().isInterrupted()) {
                     comm.pullTaskMessages(taskId, lastMessageDate, null, null);
                     Thread.sleep(UPDATE_TIMEOUT);
                 }
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }

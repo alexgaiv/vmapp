@@ -2,8 +2,8 @@ package com.alexgaiv.vmclient;
 
 import java.io.*;
 import java.net.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 interface EventCallback
 {
@@ -15,7 +15,6 @@ class Communicator
     private MessageListener messageListener = null;
     private MessageDispatcher messageDispatcher = null;
     private Socket socket = null;
-    private boolean isConnectionEstablished = false;
 
     private InetAddress IP;
     private final int PORT = 1337;
@@ -84,7 +83,7 @@ class Communicator
             try {
                 tryConnect();
 
-                form.onConnectionEstablished();
+
 
                 while (!Thread.currentThread().isInterrupted()) {
                     try
@@ -134,7 +133,7 @@ class Communicator
                     in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                     DataOutputStream out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
                     messageDispatcher.setOutputStream(out);
-                    isConnectionEstablished = true;
+                    form.onConnectionEstablished();
                     return;
                 } catch (IOException e)
                 {
@@ -147,10 +146,6 @@ class Communicator
             }
             // Thread interrupted by Communicator::disconnect()
             throw new InterruptedException();
-        }
-
-        private String formatDate(Date date) {
-            return new SimpleDateFormat("MMM dd, yyyy, hh:mm:ss a", Locale.US).format(date);
         }
 
         private void receiveTaskHistory() throws IOException
@@ -166,11 +161,17 @@ class Communicator
                 int status = in.readInt();
                 int messageCount = in.readInt();
 
-                String statusString = status == 1 ? "Completed" : "Failed";
-                String msgCountString = messageCount + " message(s)";
-                form.taskHistoryTableModel.addRow(new String[] {
-                        Integer.toString(taskId), taskName, formatDate(creationDate), execTime + " ms",
-                        statusString, msgCountString });
+                TaskStatus taskStatus;
+                try {
+                    taskStatus = TaskStatus.values()[status];
+                }
+                catch (IndexOutOfBoundsException e) {
+                    taskStatus = TaskStatus.WAITING;
+                }
+
+                form.taskHistoryTableModel.addRow(new Object[] {
+                        taskId, taskName, creationDate, execTime,
+                        taskStatus, messageCount });
                 hasNext = in.readBoolean();
             }
 
@@ -179,13 +180,25 @@ class Communicator
 
         private void receiveTaskQueue() throws IOException
         {
+            form.taskQueueTableModel.setRowCount(0);
             boolean hasNext = in.readBoolean();
-            if (hasNext) form.taskQueueTableModel.setRowCount(0);
 
             while (hasNext) {
                 String taskName = in.readUTF();
                 Date creationDate = new Date(in.readLong());
-                form.taskQueueTableModel.addRow(new String[] { taskName, formatDate(creationDate) });
+                int status = in.readInt();
+                TaskStatus taskStatus;
+
+                try {
+                    taskStatus = TaskStatus.values()[status];
+                }
+                catch (IndexOutOfBoundsException e) {
+                    taskStatus = TaskStatus.WAITING;
+                }
+
+                form.taskQueueTableModel.addRow(new Object[] {
+                    taskName, creationDate, taskStatus
+                });
                 hasNext = in.readBoolean();
             }
 
@@ -215,7 +228,6 @@ class Communicator
         private void receiveTaskMessages() throws IOException
         {
             int taskId = in.readInt();
-            long since = in.readLong();
             boolean hasNext = in.readBoolean();
 
             ArrayList<TaskMessage> messages = new ArrayList<>();
@@ -243,9 +255,8 @@ class Communicator
     private class MessageDispatcher extends Thread
     {
         private DataOutputStream out = null;
-        private boolean isMessageAvailable = false;
-        private final Object messageAvailableLock = new Object();
-        private final ArrayDeque<MessageQueueEntry> messageQueue = new ArrayDeque<>();
+        private ArrayBlockingQueue<MessageQueueEntry> messageQueue =
+                new ArrayBlockingQueue<>(100);
 
         private class MessageQueueEntry
         {
@@ -268,24 +279,10 @@ class Communicator
 
         void send(EventCallback onSuccess, EventCallback onFail, Object... messages)
         {
-            while (isMessageAvailable) {
-                synchronized (messageAvailableLock) {
-                    try {
-                        messageAvailableLock.wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        return;
-                    }
-                }
-            }
-
-            synchronized (messageQueue) {
-                messageQueue.addLast(new MessageQueueEntry(messages, onSuccess, onFail));
-            }
-
-            isMessageAvailable = true;
-            synchronized (messageAvailableLock) {
-                messageAvailableLock.notify();
+            try {
+                messageQueue.put(new MessageQueueEntry(messages, onSuccess, onFail));
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -294,20 +291,7 @@ class Communicator
         {
             try {
                 while (!Thread.currentThread().isInterrupted()) {
-                    synchronized (messageAvailableLock) {
-                        while (!isMessageAvailable) {
-                            messageAvailableLock.wait();
-                        }
-                    }
-                    isMessageAvailable = false;
-                    synchronized (messageAvailableLock) {
-                        messageAvailableLock.notify();
-                    }
-
-                    MessageQueueEntry entry;
-                    synchronized (messageQueue) {
-                        entry = messageQueue.removeFirst();
-                    }
+                    MessageQueueEntry entry = messageQueue.take();
                     Object[] messages = entry.messages;
 
                     try {
