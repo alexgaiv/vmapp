@@ -1,0 +1,83 @@
+PROGRAM    -> {VAR_BLOCK {CODE}}
+VAR_BLOCK  -> {DATATYPE VAR_BLOCK2;}
+VAR_BLOCK2 -> I | I[NUM] | I=EXPR | I[NUM]=ARR_INIT
+ARR_INIT   -> LBRACE EXPR{,EXPR} RBRACE | LBRACE RBRACE
+DATATYPE   -> real|string
+CODE       -> EXPR; | LBRACE PROGRAM RBRACE | ;{;} |
+                  if(EXPR) CODE | if(EXPR) CODE else CODE | while(EXPR) CODE
+EXPR       -> EXPR2{[== | != | < | > | <= | >=]EXPR2}
+EXPR2      -> S{[+ | - |VSLASH VSLASH]S}
+S          -> F{[* | / | &&]F}
+F          -> !F | -F | NUM | REAL | STRING | I |
+                  I=EXPR | I[EXPR]=EXPR | I[EXPR] | (EXPR)
+STRING     -> "{[A | \"]}"
+I          -> A | IA | ID
+NUM        -> D{D}
+REAL       -> NUM.NUM
+A          -> _|a|b|..|z|A|B|...|Z
+D          -> 0|1|2|...|9
+
+=
+==
+!=
+<
+>
+<=
+>=
++
+-
+||
+*
+/
+&&
+!
+int
+string
+if
+else
+while
+(
+)
+[
+]
+{
+}
+,
+;
+42
+43.34
+"abcd"
+a_23re331
+
+T_ASSIGN
+T_EQUAL
+T_NOTEQUAL
+T_LESS
+T_GREATER
+T_LESSEQ
+T_GREATEQ
+T_PLUS
+T_MINUS
+T_OR
+T_ASTERISK
+T_SLASH
+T_AND
+T_NOT
+T_INT
+T_STRING
+T_IF
+T_ELSE
+T_WHILE
+T_LPAREN
+T_RPAREN
+T_LBRACKET
+T_RBRACKET
+T_LBRACE
+T_RBRACE
+T_COMMA
+T_SEMICOLON
+T_NUMINT
+T_NUMREAL
+T_STR
+T_ID
+T_EOF
