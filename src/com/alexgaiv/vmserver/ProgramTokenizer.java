@@ -10,21 +10,30 @@ enum TokenType
 {
     T_NULL,
     T_ASSIGN,
+
+    // compare operators
     T_EQUAL,
     T_NOTEQUAL,
     T_LESS,
     T_GREATER,
     T_LESSEQ,
     T_GREATEQ,
+
+    // second order operators
     T_PLUS,
     T_MINUS,
     T_OR,
+
+    // first order operators
     T_ASTERISK,
     T_SLASH,
     T_AND,
-    T_NOT,
-    T_INT,
+
+    // data types
+    T_REAL,
     T_STRING,
+
+    T_NOT,
     T_IF,
     T_ELSE,
     T_WHILE,
@@ -37,7 +46,7 @@ enum TokenType
     T_COMMA,
     T_SEMICOLON,
     T_NUMBER,
-    T_STR,
+    T_STR_LITERAL,
     T_ID,
     T_EOF
 }
@@ -47,6 +56,22 @@ class Token
     TokenType type;
     String stringValue;
     double realValue;
+
+    static boolean isCompareOperator(TokenType tt) {
+        return tt.compareTo(TokenType.T_EQUAL) >= 0 && tt.compareTo(TokenType.T_GREATEQ) <= 0;
+    }
+
+    static boolean isFirstOrderOperator(TokenType tt) {
+        return tt.compareTo(TokenType.T_ASTERISK) >= 0 && tt.compareTo(TokenType.T_AND) <= 0;
+    }
+
+    static boolean isSecondOrderOperator(TokenType tt) {
+        return tt.compareTo(TokenType.T_PLUS) >= 0 && tt.compareTo(TokenType.T_OR) <= 0;
+    }
+
+    static boolean isDataType(TokenType tt) {
+        return tt == TokenType.T_REAL || tt == TokenType.T_STRING;
+    }
 
     Token() { this.type = TokenType.T_NULL; }
     Token(TokenType type) { this.type = type; }
@@ -65,7 +90,7 @@ class Token
 class UnexpectedTokenException extends Exception
 {
     UnexpectedTokenException(String tokenString, int lineNo) {
-        super("Unexpected token " + tokenString + " on line" + lineNo);
+        super("Unexpected token " + tokenString + " on line " + lineNo);
     }
 }
 
@@ -81,7 +106,7 @@ class ProgramTokenizer
         delim2token = new HashMap<>();
 
         String[] keywords = {
-                "int", "string", "if", "else", "while"
+                "real", "string", "if", "else", "while"
         };
 
         char[] delims = {
@@ -89,7 +114,7 @@ class ProgramTokenizer
         };
 
         TokenType[] keywordsTokens = {
-                TokenType.T_INT,
+                TokenType.T_REAL,
                 TokenType.T_STRING,
                 TokenType.T_IF,
                 TokenType.T_ELSE,
@@ -136,7 +161,6 @@ class ProgramTokenizer
     {
         this.tz = new StreamTokenizer(new StringReader(str));
 
-        // configure tokenizer
         tz.parseNumbers();
         tz.slashStarComments(true);
         tz.slashSlashComments(false);
@@ -144,6 +168,8 @@ class ProgramTokenizer
         tz.wordChars('_', '_');
         tz.ordinaryChar('/');
     }
+
+    int lineno() { return tz.lineno(); }
 
     Token nextToken() throws IOException, UnexpectedTokenException
     {
@@ -157,7 +183,7 @@ class ProgramTokenizer
             case StreamTokenizer.TT_NUMBER:
                 return new Token(TokenType.T_NUMBER, tz.nval);
             case '"':
-                return new Token(TokenType.T_STR, tz.sval);
+                return new Token(TokenType.T_STR_LITERAL, tz.sval);
             case StreamTokenizer.TT_WORD:
                 tt = lookupKeyword(tz.sval);
                 if (tt != TokenType.T_NULL)

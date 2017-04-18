@@ -1,0 +1,16 @@
+string a, b = "abs";
+real c[55], d = 1;
+real arr[3] = { 1,2,3 };
+
+a = a + b;
+a = a / 1;
+b = a && "adfg";
+
+while (1) {}
+if (1) {
+	c[1] = -a - 2 + (a+b)*c;
+}
+else if (a == 3) {
+	real a[2] = { 1, 2, arr[4] };
+	while (b < 2) { a = a + 1; b = b + 1; };;
+}

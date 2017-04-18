@@ -1,18 +1,22 @@
-PROGRAM    -> {VAR_BLOCK {CODE}}
-VAR_BLOCK  -> {DATATYPE VAR_BLOCK2;}
-VAR_BLOCK2 -> I | I[NUM] | I=EXPR | I[NUM]=ARR_INIT
+PROGRAM    -> CODE {CODE2} | {VAR_DECL} {CODE2}
+CODE       -> LBRACE {VAR_DECL} {CODE2} RBRACE
+CODE2      -> ;{;} | CODE  | EXPR; |
+                  if(EXPR) CODE2 | if(EXPR) CODE2 else CODE2 | while(EXPR) CODE2
+VAR_DECL   -> DATATYPE VAR_DECL2{,VAR_DELC2};
+VAR_DECL2  -> I | I=EXPR | I[NUM] | I[NUM]=ARR_INIT
 ARR_INIT   -> LBRACE EXPR{,EXPR} RBRACE | LBRACE RBRACE
 DATATYPE   -> real|string
-CODE       -> EXPR; | LBRACE PROGRAM RBRACE | ;{;} |
-                  if(EXPR) CODE | if(EXPR) CODE else CODE | while(EXPR) CODE
 EXPR       -> EXPR2{[== | != | < | > | <= | >=]EXPR2}
 EXPR2      -> S{[+ | - |VSLASH VSLASH]S}
 S          -> F{[* | / | &&]F}
-F          -> !F | -F | NUM | REAL | STRING | I |
-                  I=EXPR | I[EXPR]=EXPR | I[EXPR] | (EXPR)
+F          -> !F | -F | NUM | STRING | I | I[EXPR] | (EXPR) |
+				I=EXPR | I[EXPR]=EXPR
+				  
+
 STRING     -> "{[A | \"]}"
 I          -> A | IA | ID
-NUM        -> D{D}
+NUM        -> INTEGER | REAL
+INTEGER    -> D{D}
 REAL       -> NUM.NUM
 A          -> _|a|b|..|z|A|B|...|Z
 D          -> 0|1|2|...|9
