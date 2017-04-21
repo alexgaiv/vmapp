@@ -5,35 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b0ec566-1b2a-4bae-a211-f6850267c004" name="Default" comment="save">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sample_code.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/VmServer$ProgramExecutorThread.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/VmServer$ProgramExecutorThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/VmServer.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/VmServer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/Bytecode.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/Bytecode.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/Identifier.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/Identifier.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/IdentifiersTable.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/IdentifiersTable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/OpCode.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/OpCode.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramExecutor.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramExecutor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramParseException.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramParseException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramParser$1.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramParser$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramParser.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramTokenizer.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/ProgramTokenizer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/Token.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/Token.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/TokenType.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/TokenType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/UnexpectedTokenException.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/UnexpectedTokenException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/Variable.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/Variable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/VariableType.class" afterPath="$PROJECT_DIR$/out/production/vmapp/com/alexgaiv/vmserver/parser/VariableType.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm.db" afterPath="$PROJECT_DIR$/vm.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gram.txt" afterPath="$PROJECT_DIR$/gram.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample.txt" afterPath="$PROJECT_DIR$/sample.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.form" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDetailsFrame.form" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDetailsFrame.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/VmServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ByteCode.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ByteCode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/OpCode.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/OpCode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramExecutor.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramExecutor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramParser.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramTokenizer.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramTokenizer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java" afterPath="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -90,48 +64,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskDetailsFrame.form" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDetailsFrame.form">
-          <provider selected="true" editor-type-id="ui-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainForm.form" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.form">
-          <provider selected="true" editor-type-id="ui-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProgramParser.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProgramParser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
+            <state relative-caret-position="192">
               <caret line="33" column="34" lean-forward="true" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Communicator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="271" column="59" lean-forward="true" selection-start-line="271" selection-start-column="59" selection-end-line="271" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProgramExecuteResult.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramExecuteResult.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -146,20 +86,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Variable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/Variable.java">
+      <file leaf-file-name="TaskDiscussFrame.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="41" column="22" lean-forward="true" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+            <state relative-caret-position="298">
+              <caret line="123" column="5" lean-forward="true" selection-start-line="123" selection-start-column="5" selection-end-line="123" selection-end-column="5" />
               <folding>
-                <element signature="e#575#576#0" expanded="true" />
-                <element signature="e#626#627#0" expanded="true" />
-                <element signature="e#1183#1184#0" expanded="true" />
-                <element signature="e#1228#1229#0" expanded="true" />
-                <element signature="e#1281#1282#0" expanded="true" />
-                <element signature="e#1365#1366#0" expanded="true" />
-                <element signature="e#1408#1409#0" expanded="true" />
-                <element signature="e#1446#1447#0" expanded="true" />
+                <element signature="e#2305#2451#0" expanded="true" />
+                <element signature="e#2450#2451#0" expanded="true" />
+                <element signature="e#2486#2658#0" expanded="true" />
+                <element signature="e#2657#2658#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Communicator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="362">
+              <caret line="246" column="36" lean-forward="false" selection-start-line="246" selection-start-column="36" selection-end-line="246" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainForm.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="307" column="54" lean-forward="true" selection-start-line="307" selection-start-column="54" selection-end-line="307" selection-end-column="54" />
+              <folding>
+                <element signature="e#5992#6264#0" expanded="true" />
+                <element signature="e#6263#6264#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -195,10 +154,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>out_rea</find>
-      <find>T_OUT</find>
-      <find>var_dec</find>
-      <find>VAR_DECL</find>
       <find>newVar</find>
       <find>var_Dec</find>
       <find>newvar</find>
@@ -225,6 +180,10 @@
       <find>st_arr</find>
       <find>print</find>
       <find>writ</find>
+      <find>send</find>
+      <find>open</find>
+      <find>select</find>
+      <find>addCol</find>
     </findStrings>
     <replaceStrings>
       <replace>EventCallback</replace>
@@ -274,8 +233,6 @@
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDetailsForm.java" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.form" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskStatus.java" />
-        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java" />
-        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java" />
         <option value="$PROJECT_DIR$/../../Visual Studio 2012/Projects/parser/parser/Parser.cpp" />
         <option value="$PROJECT_DIR$/../../Visual Studio 2012/Projects/parser/parser/Parser.h" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmserver/ProgramTokenizer.java" />
@@ -300,6 +257,8 @@
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramExecutor.java" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.form" />
         <option value="$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramParser.java" />
+        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java" />
+        <option value="$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java" />
       </list>
     </option>
   </component>
@@ -547,6 +506,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="TaskDiscussFrame.java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vmapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vmapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alexgaiv" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vmclient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Communicator.java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
@@ -567,7 +552,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/out" />
-    <property name="SearchEverywhereHistoryKey" value="opco&#9;FILE&#9;file://C:/Users/HP/Documents/IdeaProjects/vmapp/src/com/alexgaiv/vmserver/parser/OpCode.java&#10;vmser&#9;FILE&#9;file://C:/Users/HP/Documents/IdeaProjects/vmapp/src/com/alexgaiv/vmserver/VmServer.java&#10;program&#9;FILE&#9;file://C:/Users/HP/Documents/IdeaProjects/vmapp/src/com/alexgaiv/vmserver/parser/ProgramParser.java&#10;overr&#9;PSI&#9;JAVA://java.lang.Override" />
+    <property name="SearchEverywhereHistoryKey" value="main&#9;FILE&#9;file://C:/Users/HP/Documents/IdeaProjects/vmapp/src/com/alexgaiv/vmclient/MainForm.java&#10;opco&#9;FILE&#9;file://C:/Users/HP/Documents/IdeaProjects/vmapp/src/com/alexgaiv/vmserver/parser/OpCode.java&#10;vmser&#9;FILE&#9;file://C:/Users/HP/Documents/IdeaProjects/vmapp/src/com/alexgaiv/vmserver/VmServer.java&#10;program&#9;FILE&#9;file://C:/Users/HP/Documents/IdeaProjects/vmapp/src/com/alexgaiv/vmserver/parser/ProgramParser.java&#10;overr&#9;PSI&#9;JAVA://java.lang.Override" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -961,20 +946,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/util/Vector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="602" column="14" lean-forward="false" selection-start-line="602" selection-start-column="14" selection-end-line="602" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/javax/swing/table/DefaultTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="61" column="47" lean-forward="true" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/javax/swing/table/AbstractTableModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -1071,52 +1042,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1792">
-          <caret line="127" column="109" lean-forward="false" selection-start-line="127" selection-start-column="109" selection-end-line="127" selection-end-column="109" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#8229#8230#0" expanded="false" />
-            <element signature="e#8311#8312#0" expanded="false" />
-            <element signature="e#8474#8475#0" expanded="false" />
-            <element signature="e#8518#8519#0" expanded="false" />
-            <element signature="e#9579#9580#0" expanded="false" />
-            <element signature="e#9623#9624#0" expanded="false" />
-            <element signature="e#11122#11123#0" expanded="false" />
-            <element signature="e#11208#11209#0" expanded="false" />
-            <element signature="e#11359#11360#0" expanded="false" />
-            <element signature="e#11453#11454#0" expanded="false" />
-            <element signature="e#14438#14439#0" expanded="false" />
-            <element signature="e#14511#14512#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/internal/ProgramParseException.java" />
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramParseException.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="25" column="31" lean-forward="false" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#998#999#0" expanded="false" />
-            <element signature="e#1027#1028#0" expanded="false" />
-            <element signature="e#1722#1723#0" expanded="false" />
-            <element signature="e#1762#1763#0" expanded="false" />
-            <element signature="e#1819#1820#0" expanded="false" />
-            <element signature="e#1859#1860#0" expanded="false" />
-            <element signature="e#1916#1917#0" expanded="false" />
-            <element signature="e#1956#1957#0" expanded="false" />
-            <element signature="e#2298#2299#0" expanded="false" />
-            <element signature="e#2364#2365#0" expanded="false" />
-            <element signature="e#2515#2516#0" expanded="false" />
-            <element signature="e#2579#2580#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/util/HashSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="307">
@@ -1277,14 +1204,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="271" column="59" lean-forward="true" selection-start-line="271" selection-start-column="59" selection-end-line="271" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramExecuteResult.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32">
@@ -1369,17 +1288,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="33" column="34" lean-forward="true" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmserver/parser/ProgramParser.java">
+    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/MainForm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="33" column="34" lean-forward="true" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+        <state relative-caret-position="300">
+          <caret line="307" column="54" lean-forward="true" selection-start-line="307" selection-start-column="54" selection-end-line="307" selection-end-column="54" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#5992#6264#0" expanded="true" />
+            <element signature="e#6263#6264#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/Communicator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="246" column="36" lean-forward="false" selection-start-line="246" selection-start-column="36" selection-end-line="246" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/util/Vector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="471" column="26" lean-forward="false" selection-start-line="471" selection-start-column="26" selection-end-line="471" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/javax/swing/table/DefaultTableModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="663" column="53" lean-forward="false" selection-start-line="663" selection-start-column="53" selection-end-line="663" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/alexgaiv/vmclient/TaskDiscussFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="123" column="5" lean-forward="true" selection-start-line="123" selection-start-column="5" selection-end-line="123" selection-end-column="5" />
+          <folding>
+            <element signature="e#2305#2451#0" expanded="true" />
+            <element signature="e#2450#2451#0" expanded="true" />
+            <element signature="e#2486#2658#0" expanded="true" />
+            <element signature="e#2657#2658#0" expanded="true" />
           </folding>
         </state>
       </provider>

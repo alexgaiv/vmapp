@@ -1,8 +1,12 @@
 package com.alexgaiv.vmclient;
 
+import sun.applet.Main;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -37,13 +41,13 @@ class TaskDiscussFrame extends JFrame
     private long lastMessageDate = 0;
     private int lastMessageId = 0;
     private static String username = "";
+    private MainForm parent;
     private Communicator comm;
 
-    int getTaskId() {
-        return taskId;
-    }
+    int getTaskId() { return taskId; }
 
-    TaskDiscussFrame(Communicator comm, int taskId) {
+    TaskDiscussFrame(MainForm parent, Communicator comm, int taskId) {
+        this.parent = parent;
         this.comm = comm;
         this.taskId = taskId;
 
@@ -64,17 +68,9 @@ class TaskDiscussFrame extends JFrame
 
         messageTextField.getDocument().addDocumentListener(new DocumentListener()
         {
-            public void changedUpdate(DocumentEvent e) {
-                handle();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                handle();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                handle();
-            }
+            public void changedUpdate(DocumentEvent e) { handle(); }
+            public void removeUpdate(DocumentEvent e) { handle(); }
+            public void insertUpdate(DocumentEvent e) { handle(); }
 
             private void handle() {
                 boolean enable = messageTextField.getText().length() != 0;
@@ -82,15 +78,13 @@ class TaskDiscussFrame extends JFrame
             }
         });
 
-        usernameField.addFocusListener(new FocusAdapter()
-        {
+        usernameField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
                 username = usernameField.getText();
             }
         });
 
-        this.addWindowListener(new WindowAdapter()
-        {
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 serverListenerThread.interrupt();
@@ -102,14 +96,31 @@ class TaskDiscussFrame extends JFrame
         serverListenerThread = new ServerListener();
 
         comm.pullTaskMessages(taskId, 0, e -> {
-                    serverListenerThread.start();
-                },
-                e -> {
-                    JOptionPane.showMessageDialog(mainPanel,
-                            "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
-                    dispatchEvent(new WindowEvent(TaskDiscussFrame.this, WindowEvent.WINDOW_CLOSING));
-                    dispose();
-                });
+            serverListenerThread.start();
+        },
+        e -> {
+            JOptionPane.showMessageDialog(mainPanel,
+                    "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
+            dispatchEvent(new WindowEvent(TaskDiscussFrame.this, WindowEvent.WINDOW_CLOSING));
+            dispose();
+        });
+    }
+
+    private void incMessageCount(int inc)
+    {
+        try {
+            DefaultTableModel model = parent.taskHistoryTableModel;
+            for (int row = 0; row < model.getRowCount(); row++) {
+                if ((Integer) model.getValueAt(row, 0) == taskId) {
+                    int prevValue = (Integer) model.getValueAt(row, 5);
+                    model.setValueAt(prevValue + inc, row, 5);
+                    break;
+                }
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            // method might be not thread safe
+        }
     }
 
     private void sendMessage() {
@@ -117,13 +128,14 @@ class TaskDiscussFrame extends JFrame
         if (username.length() == 0) username = "Anonymous";
 
         comm.sendTaskMessage(taskId, username, messageTextField.getText(),
-                e1 -> {
-                    comm.pullTaskMessages(taskId, lastMessageDate, null, null);
-                },
-                e1 -> {
-                    JOptionPane.showMessageDialog(mainPanel,
-                            "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
-                });
+            e1 -> {
+                comm.pullTaskMessages(taskId, lastMessageDate, null, null);
+                incMessageCount(1);
+            },
+            e1 -> {
+                JOptionPane.showMessageDialog(mainPanel,
+                        "Connection Error", "Error", JOptionPane.ERROR_MESSAGE);
+            });
     }
 
     private void addMessage(TaskMessage m) {
@@ -149,6 +161,7 @@ class TaskDiscussFrame extends JFrame
             TaskMessage lastMessage = messages.get(messages.size() - 1);
             lastMessageDate = lastMessage.date.getTime();
             lastMessageId = lastMessage.messageId;
+            incMessageCount(messages.size());
         }
 
         CardLayout layout = (CardLayout) mainPanel.getLayout();

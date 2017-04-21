@@ -169,15 +169,15 @@ public class MainForm extends JFrame
     }
 
     private void openTaskDiscussFrame(int taskId) {
-        TaskDiscussFrame frame = new TaskDiscussFrame(communicator, taskId);
+        TaskDiscussFrame frame = new TaskDiscussFrame(this, communicator, taskId);
         frame.setIconImages(frameIcons);
 
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 synchronized (taskDiscussFrames) {
                     taskDiscussFrames.remove(frame);
                 }
+                communicator.updateTaskHistory();
             }
         });
 
@@ -188,6 +188,7 @@ public class MainForm extends JFrame
         frame.setLocationRelativeTo(this);
         frame.setTitle("Discuss - " + getSelectedTaskName());
         frame.setVisible(true);
+        communicator.updateTaskHistory();
     }
 
     public MainForm() {
