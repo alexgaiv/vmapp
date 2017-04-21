@@ -1,15 +1,17 @@
 PROGRAM    -> CODE {CODE2} | {VAR_DECL} {CODE2}
 CODE       -> LBRACE {VAR_DECL} {CODE2} RBRACE
 CODE2      -> ;{;} | CODE  | EXPR; |
-                  if(EXPR) CODE2 | if(EXPR) CODE2 else CODE2 | while(EXPR) CODE2
+                if(EXPR) CODE2 | if(EXPR) CODE2 else CODE2 | while(EXPR) CODE2 |
+				out EXPR;
 VAR_DECL   -> DATATYPE VAR_DECL2{,VAR_DELC2};
-VAR_DECL2  -> I | I=EXPR | I[NUM] | I[NUM]=ARR_INIT
+VAR_DECL2  -> I | I=EXPR | I[NUM]
 ARR_INIT   -> LBRACE EXPR{,EXPR} RBRACE | LBRACE RBRACE
 DATATYPE   -> real|string
-EXPR       -> EXPR2{[== | != | < | > | <= | >=]EXPR2}
-EXPR2      -> S{[+ | - |VSLASH VSLASH]S}
-S          -> F{[* | / | &&]F}
-F          -> !F | -F | NUM | STRING | I | I[EXPR] | (EXPR) |
+EXPR       -> EXPR2{[&& | VSLASH VSLASH]EXPR2}
+EXPR2      -> EXPR3{[== | != | < | > | <= | >=]EXPR3}
+EXPR3      -> EXPR4{[+ | -]EXPR4}
+EXPR4      -> F{[* | /]F}
+F          -> !F | -F | +F | NUM | STRING | I | I[EXPR] | (EXPR) |
 				I=EXPR | I[EXPR]=EXPR
 				  
 

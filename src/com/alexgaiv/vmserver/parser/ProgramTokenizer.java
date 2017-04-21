@@ -1,39 +1,39 @@
-package com.alexgaiv.vmserver;
+package com.alexgaiv.vmserver.parser;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.HashMap;
-import java.util.HashSet;
 
 enum TokenType
 {
     T_NULL,
-    T_ASSIGN,
+    T_NOT("!",    OpCode.not),
+    T_ASSIGN("=", OpCode.store),
 
     // compare operators
-    T_EQUAL,
-    T_NOTEQUAL,
-    T_LESS,
-    T_GREATER,
-    T_LESSEQ,
-    T_GREATEQ,
+    T_EQUAL("==",    OpCode.eq),
+    T_NOTEQUAL("!=", OpCode.noteq),
+    T_LESS("<",      OpCode.lss),
+    T_GREATER(">",   OpCode.grt),
+    T_LESSEQ("<=",   OpCode.lsseq),
+    T_GREATEQ(">=",  OpCode.grteq),
 
     // second order operators
-    T_PLUS,
-    T_MINUS,
-    T_OR,
+    T_PLUS("+",  OpCode.add),
+    T_MINUS("-", OpCode.sub),
+    T_OR("||",   OpCode.or),
 
     // first order operators
-    T_ASTERISK,
-    T_SLASH,
-    T_AND,
+    T_ASTERISK("*", OpCode.mul),
+    T_SLASH("/",    OpCode.div),
+    T_AND("&&",     OpCode.and),
 
     // data types
     T_REAL,
     T_STRING,
 
-    T_NOT,
+    T_OUT,
     T_IF,
     T_ELSE,
     T_WHILE,
@@ -48,7 +48,57 @@ enum TokenType
     T_NUMBER,
     T_STR_LITERAL,
     T_ID,
-    T_EOF
+    T_EOF;
+
+    private String opSymbol = null;
+    private OpCode opCode = null;
+
+    TokenType() { }
+
+    TokenType(String opSymbol, OpCode opCode) {
+        this.opSymbol = opSymbol;
+        this.opCode = opCode;
+    }
+
+    String getOperatorSymbol() {
+        return opSymbol != null ? opSymbol : "";
+    }
+
+    public OpCode getOpCode() { return opCode; }
+
+    boolean isRelationOperator() {
+        return compareTo(TokenType.T_EQUAL) >= 0 && compareTo(TokenType.T_GREATEQ) <= 0;
+    }
+
+    boolean isFirstOrderOperator() {
+        return compareTo(TokenType.T_ASTERISK) >= 0 && compareTo(TokenType.T_AND) <= 0;
+    }
+
+    boolean isSecondOrderOperator() {
+        return compareTo(TokenType.T_PLUS) >= 0 && compareTo(TokenType.T_OR) <= 0;
+    }
+
+    boolean isBooleanOperator() {
+        return this == TokenType.T_AND || this == TokenType.T_OR || this == TokenType.T_NOT;
+    }
+
+    int getOperatorPriority()
+    {
+        if (this == T_ASTERISK || this == T_SLASH)
+            return 1;
+        if (this == T_PLUS || this == T_MINUS)
+            return 2;
+        else if (compareTo(TokenType.T_EQUAL) >= 0 && compareTo(TokenType.T_GREATEQ) <= 0)
+            return 3;
+        if (this == T_AND || this == T_OR)
+            return 4;
+
+        return -1;
+    }
+
+    boolean isDataType() {
+        return this == TokenType.T_REAL || this == TokenType.T_STRING;
+    }
 }
 
 class Token
@@ -56,24 +106,8 @@ class Token
     TokenType type;
     String stringValue;
     double realValue;
+    Identifier identifier;
 
-    static boolean isCompareOperator(TokenType tt) {
-        return tt.compareTo(TokenType.T_EQUAL) >= 0 && tt.compareTo(TokenType.T_GREATEQ) <= 0;
-    }
-
-    static boolean isFirstOrderOperator(TokenType tt) {
-        return tt.compareTo(TokenType.T_ASTERISK) >= 0 && tt.compareTo(TokenType.T_AND) <= 0;
-    }
-
-    static boolean isSecondOrderOperator(TokenType tt) {
-        return tt.compareTo(TokenType.T_PLUS) >= 0 && tt.compareTo(TokenType.T_OR) <= 0;
-    }
-
-    static boolean isDataType(TokenType tt) {
-        return tt == TokenType.T_REAL || tt == TokenType.T_STRING;
-    }
-
-    Token() { this.type = TokenType.T_NULL; }
     Token(TokenType type) { this.type = type; }
 
     Token(TokenType type, String value) {
@@ -85,19 +119,38 @@ class Token
         this.type = type;
         this.realValue = value;
     }
+
+    Token(TokenType type, Identifier identifier) {
+        this.type = type;
+        this.identifier = identifier;
+    }
 }
 
-class UnexpectedTokenException extends Exception
+class UnexpectedTokenException extends ProgramParseException
 {
-    UnexpectedTokenException(String tokenString, int lineNo) {
-        super("Unexpected token " + tokenString + " on line " + lineNo);
+    UnexpectedTokenException(String tokenString, int lineno) {
+        super("Unexpected token " + tokenString, lineno);
+    }
+}
+
+class IdentifiersTable
+{
+    private HashMap<Identifier, Identifier> identifiers = new HashMap<>();
+
+    Identifier addIfNotExists(Identifier i) {
+        Identifier i2 = identifiers.get(i);
+        if (i2 == null) {
+            identifiers.put(i, i);
+            return i;
+        }
+        return i2;
     }
 }
 
 class ProgramTokenizer
 {
     private StreamTokenizer tz;
-    private HashSet<String> identifiersTable = new HashSet<>();
+    private IdentifiersTable identifiers;
     private final static HashMap<String, TokenType> keyword2token;
     private final static HashMap<Character, TokenType> delim2token;
 
@@ -106,7 +159,7 @@ class ProgramTokenizer
         delim2token = new HashMap<>();
 
         String[] keywords = {
-                "real", "string", "if", "else", "while"
+                "real", "string", "if", "else", "while", "out"
         };
 
         char[] delims = {
@@ -118,7 +171,8 @@ class ProgramTokenizer
                 TokenType.T_STRING,
                 TokenType.T_IF,
                 TokenType.T_ELSE,
-                TokenType.T_WHILE
+                TokenType.T_WHILE,
+                TokenType.T_OUT
         };
 
         TokenType[] delimsTokens = {
@@ -153,13 +207,10 @@ class ProgramTokenizer
         return delim2token.getOrDefault(delim, TokenType.T_NULL);
     }
 
-    HashSet<String> getIdentifiersTable() {
-        return identifiersTable;
-    }
-
     ProgramTokenizer(String str)
     {
         this.tz = new StreamTokenizer(new StringReader(str));
+        this.identifiers = new IdentifiersTable();
 
         tz.parseNumbers();
         tz.slashStarComments(true);
@@ -189,8 +240,9 @@ class ProgramTokenizer
                 if (tt != TokenType.T_NULL)
                     return new Token(tt);
 
-                identifiersTable.add(tz.sval);
-                return new Token(TokenType.T_ID, tz.sval); // TODO replace tz.sval by index in identifiersTable
+                Identifier i = new Identifier(tz.sval);
+                i = identifiers.addIfNotExists(i);
+                return new Token(TokenType.T_ID, i);
             case '=':
                 // note: '= =' is counting as '=='
                 tokenType = tz.nextToken();

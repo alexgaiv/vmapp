@@ -5,6 +5,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.concurrent.*;
+import com.alexgaiv.vmserver.parser.*;
 
 enum TaskStatus
 {
@@ -40,7 +41,7 @@ public class VmServer
     private boolean started = false;
 
     private ServerSocket socket;
-    private final int PORT = 1337;
+    private final int PORT = 4000;
     private boolean isServerShutdown = false;
 
     private LinkedBlockingQueue<Task> taskQueue = new LinkedBlockingQueue<>();

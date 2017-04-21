@@ -17,7 +17,7 @@ class Communicator
     private Socket socket = null;
 
     private InetAddress IP;
-    private final int PORT = 1337;
+    private final int PORT = 4000;
     private final long RECONNECT_TIMEOUT = 2000;
 
     private MainForm form = null;
@@ -82,8 +82,6 @@ class Communicator
         {
             try {
                 tryConnect();
-
-
 
                 while (!Thread.currentThread().isInterrupted()) {
                     try
