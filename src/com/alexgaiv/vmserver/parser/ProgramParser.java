@@ -1,85 +1,13 @@
 package com.alexgaiv.vmserver.parser;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 class ProgramParseException extends Exception
 {
     ProgramParseException(String message, int lineno) {
-        super(message + " on line " + lineno);
-    }
-}
-
-enum VariableType
-{
-    VT_NOT_SET(""),
-    VT_REAL("real"),
-    VT_ARRAY("array"),
-    VT_BOOL("bool");
-
-    private String typeString;
-
-    VariableType(String typeString) {
-        this.typeString = typeString;
-    }
-
-    @Override
-    public String toString() { return typeString; }
-}
-
-class Variable
-{
-    VariableType type, arrayElementType;
-    int size;
-    int address;
-    Identifier identifier;
-    int prevAssignedVarIndex;
-    int scopeFlagIndex;
-
-    static Variable getScopeFlag() {
-        return new Variable(null, null, -1);
-    }
-
-    boolean isScopeFlag() {
-        return identifier == null;
-    }
-
-    Variable(VariableType type, Identifier identifier, int prevAssignedVarIndex)
-    {
-        this.type = type;
-        this.identifier = identifier;
-        this.prevAssignedVarIndex = prevAssignedVarIndex;
-        this.scopeFlagIndex = -1;
-        this.size = type == VariableType.VT_REAL ? 8 : 4;
-        this.address = 0;
-    }
-}
-
-class Identifier
-{
-    String name;
-    int assignedVarIndex;
-
-    Identifier(String name) {
-        this.name = name;
-        this.assignedVarIndex = -1;
-    }
-
-    boolean isVariableAssigned() {
-        return assignedVarIndex != -1;
-    }
-
-    @Override
-    public boolean equals(Object i) {
-        return i instanceof Identifier && name.equals(((Identifier) i).name);
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
+        super(String.format("[line %d] %s", lineno, message));
     }
 }
 
@@ -93,6 +21,14 @@ class ProgramParser
     private int scopeFlagIndex;
     private int stackPointer;
 
+    private final static String wrongArgsTypesMessage =
+            "Wrong argument types for operator `%s`:\nRequired (%s, %s), got (%s, %s)";
+    private final static String wrongArgTypeMessage =
+            "Wrong argument type for operator `%s`:\nRequired %s, got %s";
+
+    Bytecode getBytecode() { return bytecode; }
+    HashMap<Integer, String> getStringTable() { return tokenizer.getStringTable(); }
+
     void parse(String program) throws ProgramParseException
     {
         bytecode = new Bytecode();
@@ -105,7 +41,6 @@ class ProgramParser
         try {
             nextToken();
             PROGRAM();
-            bytecode.writeToTextFile("sample_code.txt");
         }
         catch (IOException e) {
             throw new ProgramParseException(e.getMessage(), tokenizer.lineno());
@@ -140,7 +75,6 @@ class ProgramParser
         v.scopeFlagIndex = scopeFlagIndex;
 
         stackPointer += v.size;
-        bytecode.put(OpCode.subsp, v.size);
 
         int i = variables.size();
         variables.add(v);
@@ -161,11 +95,9 @@ class ProgramParser
         v.arrayElementType = elementType;
         v.scopeFlagIndex = scopeFlagIndex;
 
-        int elemSize = elementType == VariableType.VT_REAL ? 8 : 4;
-        v.size = 4 + size * elemSize;
+        v.size = size + 1;
         stackPointer += v.size;
 
-        bytecode.put(OpCode.subsp, v.size);
         bytecode.putValue(size);
         bytecode.put(OpCode.store, v.address);
 
@@ -205,11 +137,6 @@ class ProgramParser
         }
     }
 
-    private final static String wrongArgsTypesMessage =
-        "Wrong arguments types for operator `%s`:\nRequired (%s, %s), got (%s, %s)";
-    private final static String wrongArgTypeMessage =
-        "Wrong argument type for operator `%s`:\nRequired %s, got %s";
-
     private void checkArgumentType(VariableType type, TokenType op)
         throws ProgramParseException
     {
@@ -232,25 +159,45 @@ class ProgramParser
     private void checkArgumentsTypes(VariableType leftType, VariableType rightType, TokenType op)
         throws ProgramParseException
     {
-        if (op.isBooleanOperator())
+        if (leftType != rightType)
         {
-            if (leftType != VariableType.VT_BOOL ||
-                rightType != VariableType.VT_BOOL)
-            {
-                String message = String.format(wrongArgsTypesMessage, op.getOperatorSymbol(),
-                    "bool", "bool", leftType.toString(), rightType.toString());
-                throw new ProgramParseException(message, tokenizer.lineno());
+            String message;
+            if (op == TokenType.T_ASSIGN) {
+                message = String.format("Cannot assign expression of type `%s` to variable of type `%s`",
+                    rightType.toString(), leftType.toString());
+            }
+            else {
+                String requiredType = op.isBooleanOperator() ? "bool" : "real";
+                message = String.format(
+                    wrongArgsTypesMessage,
+                    op.getOperatorSymbol(), requiredType, requiredType, leftType, rightType);
             }
 
+            throw new ProgramParseException(message, tokenizer.lineno());
         }
-        else
-            if (leftType != VariableType.VT_REAL ||
-                rightType != VariableType.VT_REAL)
-            {
-                String message = String.format(wrongArgsTypesMessage, op.getOperatorSymbol(),
-                    "real", "real", leftType.toString(), rightType.toString());
-                throw new ProgramParseException(message, tokenizer.lineno());
-            }
+    }
+
+    private void processDeclaration()
+        throws IOException, ProgramParseException
+    {
+        boolean varDeclaration = token.type.isDataType();
+
+        int sp = 0, l = 0;
+        if (varDeclaration) {
+            sp = stackPointer;
+            bytecode.put(OpCode.subsp);
+            l = bytecode.size();
+            bytecode.putInt(0);
+        }
+
+        while (token.type.isDataType()) {
+            VAR_DECL();
+        }
+
+        if (varDeclaration) {
+            int varSize = stackPointer - sp;
+            bytecode.putInt(l, varSize);
+        }
     }
 
     private void PROGRAM() throws IOException, ProgramParseException
@@ -262,9 +209,7 @@ class ProgramParser
         }
         else {
             enterScope();
-            while (token.type.isDataType()) {
-                VAR_DECL();
-            }
+            processDeclaration();
 
             while (token.type != TokenType.T_EOF) {
                 CODE2();
@@ -277,10 +222,7 @@ class ProgramParser
     {
         enterScope();
         nextToken();
-
-        while (token.type.isDataType()) {
-            VAR_DECL();
-        }
+        processDeclaration();
 
         while (token.type != TokenType.T_RBRACE) {
             CODE2();
@@ -359,14 +301,36 @@ class ProgramParser
             bytecode.markLabel(l1);
 
         }
-        else if (token.type == TokenType.T_OUT) {
+        else if (token.type == TokenType.T_PRINT || token.type == TokenType.T_PRINTLN)
+        {
+            TokenType tt = token.type;
             nextToken();
             EXPR();
             expectToken(TokenType.T_SEMICOLON);
 
-            if (expressionType == VariableType.VT_REAL)
-                bytecode.put(OpCode.out);
+            switch (expressionType)
+            {
+                case VT_REAL:
+                case VT_BOOL:
+                    bytecode.put(OpCode.print_real);
+                    break;
+                case VT_STRING:
+                    bytecode.put(OpCode.print_str);
+                    break;
+                case VT_ARRAY:
+                    bytecode.put(OpCode.print_arr);
+                    break;
+                default:
+                    throw new ProgramParseException(
+                        "`Out` argument must be real, boolean, string or array", tokenizer.lineno());
+            }
 
+            if (tt == TokenType.T_PRINTLN) {
+                bytecode.putValue(0.0);
+                bytecode.put(OpCode.print_str);
+            }
+
+            expressionType = VariableType.VT_NOT_SET;
             nextToken();
         }
         else {
@@ -378,11 +342,7 @@ class ProgramParser
 
     private void VAR_DECL() throws IOException, ProgramParseException
     {
-        if (token.type == TokenType.T_STRING) {
-            throw new ProgramParseException("not implemented", tokenizer.lineno());
-        }
-
-        VariableType dataType = VariableType.VT_REAL;
+        VariableType dataType = token.type == TokenType.T_REAL ? VariableType.VT_REAL : VariableType.VT_STRING;
 
         nextToken();
         VAR_DECL2(dataType);
@@ -409,6 +369,9 @@ class ProgramParser
             if (token.realValue != arraySize) {
                 throw new ProgramParseException("Array size must be an integer", tokenizer.lineno());
             }
+            if (arraySize <= 0) {
+                throw new ProgramParseException("Array size must be greater than zero", tokenizer.lineno());
+            }
 
             nextToken();
             expectToken(TokenType.T_RBRACKET);
@@ -425,10 +388,8 @@ class ProgramParser
                 EXPR();
 
                 checkArgumentsTypes(dataType, expressionType, TokenType.T_ASSIGN);
+                bytecode.put(OpCode.store, variable.address);
             }
-            else bytecode.putValue(0.0);
-
-            bytecode.put(OpCode.store, variable.address);
         }
     }
 
@@ -527,13 +488,25 @@ class ProgramParser
                 expressionType = VariableType.VT_REAL;
                 break;
             case T_STR_LITERAL:
-                throw new ProgramParseException("not implemented", tokenizer.lineno());
-                //nextToken();
-                //break;
+                bytecode.putValue(token.stringId);
+                nextToken();
+                expressionType = VariableType.VT_STRING;
+                break;
             case T_LPAREN:
                 nextToken();
                 EXPR();
                 expectToken(TokenType.T_RPAREN);
+                nextToken();
+                break;
+            case T_SQRT:
+                nextToken();
+                expectToken(TokenType.T_LPAREN);
+                nextToken();
+                EXPR();
+                expectToken(TokenType.T_RPAREN);
+
+                bytecode.put(OpCode.sqrt);
+                expressionType = VariableType.VT_REAL;
                 nextToken();
                 break;
             case T_ID:
@@ -577,7 +550,10 @@ class ProgramParser
                     }
                 }
                 else {
-                    if (variable.type == VariableType.VT_REAL) {
+                    if (variable.type == VariableType.VT_ARRAY) {
+                        bytecode.putValue((double)variable.address);
+                    }
+                    else {
                         bytecode.put(OpCode.load, variable.address);
                     }
                     expressionType = variable.type;
@@ -585,25 +561,6 @@ class ProgramParser
                 break;
             default:
                 parseError();
-        }
-    }
-
-    public static void main(String[] args)
-    {
-        ProgramParser parser = new ProgramParser();
-
-        String programText = "";
-        try {
-            programText = new String(Files.readAllBytes(Paths.get("sample.txt")), Charset.defaultCharset());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            parser.parse(programText);
-        }
-        catch (ProgramParseException e) {
-            System.out.println(e.getMessage());
         }
     }
 }

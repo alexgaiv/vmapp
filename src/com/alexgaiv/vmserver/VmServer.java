@@ -462,6 +462,9 @@ public class VmServer
                 ProgramExecuteResult result = exec.execute(task.programText);
                 dt = new java.util.Date().getTime() - dt;
 
+                if (!result.success)
+                    result.programOutput = result.errorMessage;
+
                 try (PreparedStatement st = connection.prepareStatement(newTaskQuery)) {
                     st.setString(1, task.name);
                     st.setLong(2, task.creationDate);

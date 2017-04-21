@@ -9,21 +9,15 @@ class Bytecode
 {
     private ArrayList<Byte> bytecode = new ArrayList<>();
 
-    private void putInt(int value) {
-        byte[] bytes = new byte[4];
-        ByteBuffer.wrap(bytes).putInt(value);
-        for (byte b : bytes)
-            bytecode.add(b);
-    }
-
-    private void putDouble(double value) {
-        byte[] bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble(value);
-        for (byte b : bytes)
-            bytecode.add(b);
-    }
-
     int size() { return bytecode.size(); }
+
+    ByteBuffer toByteBuffer()
+    {
+        byte[] bytes = new byte[bytecode.size()];
+        for (int i = 0; i < bytecode.size(); i++)
+            bytes[i] = bytecode.get(i);
+        return ByteBuffer.wrap(bytes);
+    }
 
     void put(OpCode opCode) {
         bytecode.add(opCode.code);
@@ -39,6 +33,27 @@ class Bytecode
         putDouble(value);
     }
 
+    void putInt(int value) {
+        byte[] bytes = new byte[4];
+        ByteBuffer.wrap(bytes).putInt(value);
+        for (byte b : bytes)
+            bytecode.add(b);
+    }
+
+    private void putDouble(double value) {
+        byte[] bytes = new byte[8];
+        ByteBuffer.wrap(bytes).putDouble(value);
+        for (byte b : bytes)
+            bytecode.add(b);
+    }
+
+    void putInt(int index, int value) {
+        byte[] bytes = new byte[4];
+        ByteBuffer.wrap(bytes).putInt(value);
+        for (int i = 0; i < 4; i++)
+            bytecode.set(index + i, bytes[i]);
+    }
+
     int putLabel() {
         int size = bytecode.size();
         putInt(0);
@@ -46,28 +61,19 @@ class Bytecode
     }
 
     void markLabel(int label) {
-        int s = bytecode.size();
-        byte[] bytes = new byte[4];
-        ByteBuffer.wrap(bytes).putInt(s);
-        for (int i = 0; i < 4; i++)
-            bytecode.set(label + i, bytes[i]);
+        putInt(label, bytecode.size());
     }
 
     void writeToTextFile(String filename)
     {
         try (PrintWriter file = new PrintWriter(filename))
         {
-            byte[] bytes = new byte[bytecode.size()];
-            for (int i = 0; i < bytecode.size(); i++)
-                bytes[i] = bytecode.get(i);
-
-            ByteBuffer buffer = ByteBuffer.wrap(bytes);
+            ByteBuffer buffer = toByteBuffer();
 
             int i = 0;
             while (i < bytecode.size())
             {
                 byte op = buffer.get(i);
-
                 OpCode opCode = OpCode.values()[op - 1];
 
                 if (op >= OpCode.load.code && op <= OpCode.jmpz.code) {
@@ -87,6 +93,8 @@ class Bytecode
                 }
             }
         }
-        catch (IOException e) { }
+        catch (IOException e) {
+            // ignore
+        }
     }
 }

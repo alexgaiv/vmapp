@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.Map;
 
 enum TokenType
 {
@@ -33,7 +34,10 @@ enum TokenType
     T_REAL,
     T_STRING,
 
-    T_OUT,
+    T_PRINT,
+    T_PRINTLN,
+    T_SQRT,
+
     T_IF,
     T_ELSE,
     T_WHILE,
@@ -60,23 +64,9 @@ enum TokenType
         this.opCode = opCode;
     }
 
-    String getOperatorSymbol() {
-        return opSymbol != null ? opSymbol : "";
-    }
+    String getOperatorSymbol() { return opSymbol != null ? opSymbol : ""; }
 
     public OpCode getOpCode() { return opCode; }
-
-    boolean isRelationOperator() {
-        return compareTo(TokenType.T_EQUAL) >= 0 && compareTo(TokenType.T_GREATEQ) <= 0;
-    }
-
-    boolean isFirstOrderOperator() {
-        return compareTo(TokenType.T_ASTERISK) >= 0 && compareTo(TokenType.T_AND) <= 0;
-    }
-
-    boolean isSecondOrderOperator() {
-        return compareTo(TokenType.T_PLUS) >= 0 && compareTo(TokenType.T_OR) <= 0;
-    }
 
     boolean isBooleanOperator() {
         return this == TokenType.T_AND || this == TokenType.T_OR || this == TokenType.T_NOT;
@@ -104,15 +94,15 @@ enum TokenType
 class Token
 {
     TokenType type;
-    String stringValue;
     double realValue;
+    int stringId;
     Identifier identifier;
 
     Token(TokenType type) { this.type = type; }
 
-    Token(TokenType type, String value) {
+    Token(TokenType type, int stringId) {
         this.type = type;
-        this.stringValue = value;
+        this.stringId = stringId;
     }
 
     Token(TokenType type, double value) {
@@ -133,24 +123,12 @@ class UnexpectedTokenException extends ProgramParseException
     }
 }
 
-class IdentifiersTable
-{
-    private HashMap<Identifier, Identifier> identifiers = new HashMap<>();
-
-    Identifier addIfNotExists(Identifier i) {
-        Identifier i2 = identifiers.get(i);
-        if (i2 == null) {
-            identifiers.put(i, i);
-            return i;
-        }
-        return i2;
-    }
-}
-
 class ProgramTokenizer
 {
     private StreamTokenizer tz;
     private IdentifiersTable identifiers;
+    private HashMap<Integer, String> stringTable;
+    private int lastStringId;
     private final static HashMap<String, TokenType> keyword2token;
     private final static HashMap<Character, TokenType> delim2token;
 
@@ -159,7 +137,7 @@ class ProgramTokenizer
         delim2token = new HashMap<>();
 
         String[] keywords = {
-                "real", "string", "if", "else", "while", "out"
+            "real", "string", "if", "else", "while", "print", "println", "sqrt"
         };
 
         char[] delims = {
@@ -172,7 +150,9 @@ class ProgramTokenizer
                 TokenType.T_IF,
                 TokenType.T_ELSE,
                 TokenType.T_WHILE,
-                TokenType.T_OUT
+                TokenType.T_PRINT,
+                TokenType.T_PRINTLN,
+                TokenType.T_SQRT
         };
 
         TokenType[] delimsTokens = {
@@ -209,18 +189,24 @@ class ProgramTokenizer
 
     ProgramTokenizer(String str)
     {
-        this.tz = new StreamTokenizer(new StringReader(str));
-        this.identifiers = new IdentifiersTable();
+        tz = new StreamTokenizer(new StringReader(str));
+        identifiers = new IdentifiersTable();
+        stringTable = new HashMap<>();
+        lastStringId = 0;
+
+        stringTable.put(lastStringId, "\n");
 
         tz.parseNumbers();
         tz.slashStarComments(true);
-        tz.slashSlashComments(false);
+        tz.slashSlashComments(true);
         tz.quoteChar('"');
         tz.wordChars('_', '_');
         tz.ordinaryChar('/');
+        tz.ordinaryChar('-');
     }
 
     int lineno() { return tz.lineno(); }
+    HashMap<Integer, String> getStringTable() { return stringTable; }
 
     Token nextToken() throws IOException, UnexpectedTokenException
     {
@@ -234,7 +220,18 @@ class ProgramTokenizer
             case StreamTokenizer.TT_NUMBER:
                 return new Token(TokenType.T_NUMBER, tz.nval);
             case '"':
-                return new Token(TokenType.T_STR_LITERAL, tz.sval);
+                int stringId = -1;
+                for (Map.Entry<Integer, String> e : stringTable.entrySet()) {
+                    if (e.getValue().equals(tz.sval)) {
+                        stringId = e.getKey();
+                        break;
+                    }
+                }
+                if (stringId == -1) {
+                    stringId = ++lastStringId;
+                    stringTable.put(stringId, tz.sval);
+                }
+                return new Token(TokenType.T_STR_LITERAL, stringId);
             case StreamTokenizer.TT_WORD:
                 tt = lookupKeyword(tz.sval);
                 if (tt != TokenType.T_NULL)

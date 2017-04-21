@@ -1,20 +1,22 @@
-real a, b = 3;
-real c[55], d = 1;
-real arr[3];
+real a = 4.0;
+real b = 22.4;
+real c = 10.0;
 
-a = b / 1;
-a = a + 2;
-
-out a + b;
-
-while (1 == 0) {}
-
-if (a == 1 && b < 2) {
-	c[1] = -a - 2 + (a+b)*c[b];
-	out c[a];
+real D = b*b - 4*a*c;
+if (D < 0)
+  print "нет решений";
+else if (D == 0) {
+  real x = -b / (2*a);
+  print "x = ";
+  print x;
 }
-else if (!(a == 3)) {
-	real d[2];
-	while (b < 2) { a = a + 1; b = b + 1; };
-	out -(a + (b * 2 + c[2]) * (b - a));
+else {
+  real a2 = 2*a;
+  real sqrt_D = sqrt(D);
+  real x1 = (-b + sqrt_D) / a2;
+  real x2 = (-b - sqrt_D) / a2;
+  print "x1 = ";
+  println x1;
+  print "x2 = ";
+  print x2;
 }

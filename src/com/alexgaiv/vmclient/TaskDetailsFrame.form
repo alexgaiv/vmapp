@@ -107,6 +107,7 @@
                 <constraints/>
                 <properties>
                   <editable value="false"/>
+                  <font name="Consolas" size="12"/>
                 </properties>
               </component>
             </children>
